@@ -13,7 +13,7 @@ public class History {
         pastGameStates.add(gameToAdd);
     }
 
-    public static GameState getGameStateByIndex(int i) {
+    public static GameState getGameStateByIndex(int i) throws IndexOutOfBoundsException {
 
         if (i < 0 || i >= pastGameStates.size()) {
             throw new IndexOutOfBoundsException("No GameStates available");
