@@ -3,6 +3,7 @@ package model.rules;
 import model.Direction;
 import model.Field;
 import model.GameState;
+import model.enemyPackage.AbstractEnemy;
 
 import java.util.ArrayList;
 
@@ -19,13 +20,41 @@ public class GameRuleLogic {
         
         // TODO Hier muss alles rein, was den Spieler betrifft. Sonst ist alles andere allgemein gehalten
         if(gameState.getPlayer().getPositionX() == positionX && gameState.getPlayer().getPositionY() == positionY){
-            
+
+            if(!GameState.getListOfEnemies().isEmpty()){
+                for(AbstractEnemy e : GameState.getListOfEnemies()){
+                    if(e.getPositionX() == playerX && e.getPositionY() == playerY){
+                        throw new InvalidMoveException("There is an Enemy");
+                    }
+                }
+            }
+
+
         }
         return true;
     }
 
+    public static boolean isValidToSpawn(GameState gameState, int positionX, int positionY) throws InvalidSpawnException {
 
-    public void  getPossibleMoves(GameState gameState, int x, int y){
+        if((gameState.getBoard().getFieldList())[positionX][positionY] ==  Field.WALL){
+            throw new InvalidSpawnException("There is a Wall");
+        }
+        if(gameState.getPlayer().getPositionX() == positionX && gameState.getPlayer().getPositionY() == positionY){
+            throw new InvalidSpawnException("There is the Player");
+        }
+        if(!GameState.getListOfEnemies().isEmpty()){
+            for(AbstractEnemy e : GameState.getListOfEnemies()){
+                if(e.getPositionX() == positionX && e.getPositionY() == positionY){
+                    throw new InvalidSpawnException("There is an Enemy");
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    public static ArrayList<Direction> getPossibleMoves(GameState gameState, int x, int y){
         ArrayList<Direction> validDirections = new ArrayList<>();
         ArrayList<Direction> allDirections = new ArrayList<>();
         allDirections.add(Direction.UP);
@@ -42,5 +71,6 @@ public class GameRuleLogic {
                 //pass
             }
         }
+        return validDirections;
     }
 }

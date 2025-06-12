@@ -1,15 +1,19 @@
 package model;
 
 
-import model.enemy.AbstractEnemy;
-import model.enemy.EasyEnemy;
-import model.enemy.Enemies;
+import model.enemyPackage.AbstractEnemy;
+import model.enemyPackage.EasyEnemy;
+import model.enemyPackage.Enemies;
 import model.rules.GameRuleLogic;
 import model.rules.InvalidMoveException;
+import model.rules.InvalidSpawnException;
 import view.View;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import static model.rules.GameRuleLogic.isValidToSpawn;
 
 public class GameState {
     static Random random = new Random();
@@ -27,7 +31,7 @@ public class GameState {
         this.board = board;
         this.player = player;
         this.enemies = enemies;
-        GameState.createEnemies();
+        GameState.createEnemies(this,3);
 
 
         if (turn == 0) {
@@ -46,13 +50,25 @@ public class GameState {
         return listOfEnemies;
     }
 
-    public static void createEnemies(){
-        listOfEnemies.add(new EasyEnemy(random.nextInt(10)+1, random.nextInt(10)+1));
-        listOfEnemies.add(new EasyEnemy(random.nextInt(10)+1, random.nextInt(10)+1));
-        listOfEnemies.add(new EasyEnemy(random.nextInt(10)+1, random.nextInt(10)+1));
+    public static void createEnemies(GameState gameState, int count){
 
 
+        boolean isValid = false;
+        for(int i = 0; i < count; i++){
+            while (!isValid){
+                try {
+                    int x = random.nextInt(10)+1;
+                    int y = random.nextInt(10)+1;
+                    isValidToSpawn(gameState, x, y );
+                    listOfEnemies.add(new EasyEnemy(x, y));
+                    isValid = true;
 
+                } catch (InvalidSpawnException e){
+                    //Pass
+                }
+            }
+            isValid = false;
+        }
 
     }
 
@@ -111,16 +127,24 @@ public class GameState {
             setPlayerX(player.getPositionX() + direction.deltaX);
             setPlayerY(player.getPositionY() + direction.deltaY);
             turn++;
+            updateViews();
 
+            // TODO Add wait time
+            for (AbstractEnemy enemy : listOfEnemies){
+                if(enemy.getClass() == EasyEnemy.class){
+                    ((EasyEnemy)enemy).performMove(this, (EasyEnemy)enemy);
+                }
+
+            }
             History.addGameState(new GameState(this));
-
             updateViews();
 
 
         } catch (InvalidMoveException e){
             //Pass
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-
 
 
     }
@@ -136,6 +160,7 @@ public class GameState {
             board = new Board(historyGamestate.getBoard());
             player = new Player(historyGamestate.getPlayer());
             enemies = new Enemies(historyGamestate.getEnemies());
+            listOfEnemies = (ArrayList<AbstractEnemy>)getListOfEnemies().clone();
 
             updateViews();
 
