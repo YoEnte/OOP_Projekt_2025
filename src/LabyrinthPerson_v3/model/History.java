@@ -24,7 +24,7 @@ public class History {
 
     public static void removeGameStatesUntil(int turn){
 
-        while (pastGameStates.size() > turn) {
+        while (pastGameStates.size() > turn + 1) {
             pastGameStates.removeLast();
         }
     }
