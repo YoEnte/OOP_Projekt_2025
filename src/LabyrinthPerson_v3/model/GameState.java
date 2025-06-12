@@ -95,16 +95,10 @@ public class GameState {
         try {
             GameState historyGamestate = History.getGameStateByIndex(turn + stepSize);
 
-            System.out.println(turn);
-
             turn += stepSize;
             board = new Board(historyGamestate.getBoard());
             player = new Player(historyGamestate.getPlayer());
-            System.out.println(player.getPlayerX());
-            System.out.println(player.getPlayerY());
             enemies = new Enemies(historyGamestate.getEnemies());
-
-            System.out.println(this.turn);
 
             updateViews();
 
