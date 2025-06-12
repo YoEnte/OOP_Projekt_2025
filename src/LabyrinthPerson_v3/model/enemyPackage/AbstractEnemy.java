@@ -1,6 +1,6 @@
 package model.enemyPackage;
 
-public class AbstractEnemy {
+public abstract class AbstractEnemy {
 
     private int x;
     private int y;
