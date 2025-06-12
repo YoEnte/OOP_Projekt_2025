@@ -1,6 +1,7 @@
 package view;
 
 import model.Board;
+import model.GameState;
 
 /**
  * Classes that want to display the {@link Board} must implement this interface
@@ -13,6 +14,6 @@ public interface View {
 	 * 
 	 * @param board the {@link Board} object which called this method.
 	 */
-	void update(Board board);
+	void update(GameState gameState, Board board);
 
 }
