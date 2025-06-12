@@ -1,6 +1,7 @@
 package view;
 
 import model.Board;
+import model.Field;
 import model.GameState;
 
 /**
@@ -14,14 +15,15 @@ public class ConsoleView implements View {
 		// The player's position
 		int playerX = gameState.getPlayer().getPlayerX();
 		int playerY = gameState.getPlayer().getPlayerY();
+		Field[][] _board = board.getBoard();
 
 		for (int row = 0; row < board.getHeight(); row++) {
 			for (int col = 0; col < board.getWidth(); col++) {
 				// If the player is here, print #, otherwise print .
 				if (row == playerY && col == playerX) {
-					System.out.print("#");
+					System.out.print(" #");
 				} else {
-					System.out.print(".");
+					System.out.print(" " + _board[row][col].symbole);
 				}
 			}
 

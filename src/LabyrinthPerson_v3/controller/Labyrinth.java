@@ -24,8 +24,9 @@ public class Labyrinth {
 
 
                 // Dimension of the game board (10x10).
-                int width = 10;
-                int height = 10;
+                // add 2 for wall around
+                int width = 10 + 2;
+                int height = 10 + 2;
                 // Create a new game world.
                 Board board = new Board(width, height);
 
