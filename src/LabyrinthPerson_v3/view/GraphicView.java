@@ -109,7 +109,7 @@ public class GraphicView extends JPanel implements View {
 		);
 
 		enemies.clear();
-		for (AbstractEnemy e : GameState.getListOfEnemies()) {
+		for (AbstractEnemy e : gameState.getListOfEnemies()) {
 			Rectangle r = new Rectangle();
 			r.setSize(fieldDimension);
 			r.setLocation(
