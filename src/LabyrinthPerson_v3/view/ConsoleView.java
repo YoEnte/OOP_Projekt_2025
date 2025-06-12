@@ -11,19 +11,19 @@ import model.GameState;
 public class ConsoleView implements View {
 
 	@Override
-	public void update(GameState gameState, Board board) {
+	public void update(GameState gameState) {
 		// The player's position
 		int playerX = gameState.getPlayer().getPlayerX();
 		int playerY = gameState.getPlayer().getPlayerY();
-		Field[][] _board = board.getBoard();
+		Field[][] board = gameState.getBoard().getFieldList();
 
-		for (int row = 0; row < board.getHeight(); row++) {
-			for (int col = 0; col < board.getWidth(); col++) {
+		for (int row = 0; row < gameState.getBoard().getHeight(); row++) {
+			for (int col = 0; col < gameState.getBoard().getWidth(); col++) {
 				// If the player is here, print #, otherwise print .
 				if (row == playerY && col == playerX) {
 					System.out.print(" #");
 				} else {
-					System.out.print(" " + _board[row][col].symbole);
+					System.out.print(" " + board[row][col].symbole);
 				}
 			}
 
@@ -34,5 +34,4 @@ public class ConsoleView implements View {
 		// A newline between every update
 		System.out.println();
 	}
-
 }

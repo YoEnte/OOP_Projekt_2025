@@ -14,6 +14,6 @@ public interface View {
 	 * 
 	 * @param board the {@link Board} object which called this method.
 	 */
-	void update(GameState gameState, Board board);
+	void update(GameState gameState);
 
 }

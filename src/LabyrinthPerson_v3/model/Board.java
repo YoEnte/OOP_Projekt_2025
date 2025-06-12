@@ -71,7 +71,7 @@ public class Board {
 	/**
 	 *
 	 */
-	public Field[][] getBoard() {
+	public Field[][] getFieldList() {
 		return board;
 	}
 

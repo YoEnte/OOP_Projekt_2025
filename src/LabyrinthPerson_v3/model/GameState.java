@@ -25,6 +25,10 @@ public class GameState {
         return player;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     /**
      * Sets the player's x position.
      *
@@ -78,7 +82,7 @@ public class GameState {
      */
     public void registerView(View view) {
         views.add(view);
-        view.update(this, this.board);
+        view.update(this);
     }
 
     /**
@@ -86,7 +90,7 @@ public class GameState {
      */
     private void updateViews() {
         for (int i = 0; i < views.size(); i++) {
-            views.get(i).update(this, this.board);
+            views.get(i).update(this);
         }
     }
 
