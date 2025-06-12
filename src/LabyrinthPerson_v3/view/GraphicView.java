@@ -8,11 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import model.Board;
-import model.Field;
 import model.GameState;
-import model.enemy.AbstractEnemy;
-import model.enemy.Enemies;
+import model.enemyPackage.AbstractEnemy;
 
 /**
  * A graphical view of the world.

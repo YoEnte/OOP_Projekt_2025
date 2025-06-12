@@ -1,4 +1,4 @@
-package model.enemy;
+package model.enemyPackage;
 
 public class HardEnemy extends AbstractEnemy {
 

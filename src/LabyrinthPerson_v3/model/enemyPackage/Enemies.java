@@ -1,4 +1,4 @@
-package model.enemy;
+package model.enemyPackage;
 import java.util.*;
 
 public class Enemies {

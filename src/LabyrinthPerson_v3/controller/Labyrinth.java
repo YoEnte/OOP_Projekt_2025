@@ -6,8 +6,7 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 
 import model.Board;
-import model.enemy.EasyEnemy;
-import model.enemy.Enemies;
+import model.enemyPackage.Enemies;
 import model.GameState;
 import model.Player;
 import view.ConsoleView;
