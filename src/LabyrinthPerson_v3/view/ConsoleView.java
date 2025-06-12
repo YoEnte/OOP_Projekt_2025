@@ -2,6 +2,7 @@ package view;
 
 import model.Board;
 import model.Field;
+import model.GameState;
 
 /**
  * A view that prints the current state of the world to the console upon every
@@ -10,10 +11,10 @@ import model.Field;
 public class ConsoleView implements View {
 
 	@Override
-	public void update(Board board) {
+	public void update(GameState gameState, Board board) {
 		// The player's position
-		int playerX = board.getPlayerX();
-		int playerY = board.getPlayerY();
+		int playerX = gameState.getPlayer().getPlayerX();
+		int playerY = gameState.getPlayer().getPlayerY();
 		Field[][] _board = board.getBoard();
 
 		for (int row = 0; row < board.getHeight(); row++) {

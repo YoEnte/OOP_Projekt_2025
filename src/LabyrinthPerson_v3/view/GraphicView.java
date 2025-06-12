@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import model.Board;
 import model.Field;
+import model.GameState;
 
 /**
  * A graphical view of the world.
@@ -71,13 +72,13 @@ public class GraphicView extends JPanel implements View {
 	}
 
 	@Override
-	public void update(Board board) {
+	public void update(GameState gameState, Board board) {
 
 		// Update players size and location
 		player.setSize(fieldDimension);
 		player.setLocation(
-			(int) (board.getPlayerX() * fieldDimension.width),
-			(int) (board.getPlayerY() * fieldDimension.height)
+			(int) (gameState.getPlayer().getPlayerX() * fieldDimension.width),
+			(int) (gameState.getPlayer().getPlayerY() * fieldDimension.height)
 		);
 
 		// Update Field sizes and locations

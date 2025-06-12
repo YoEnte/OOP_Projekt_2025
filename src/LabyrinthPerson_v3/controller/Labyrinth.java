@@ -6,6 +6,9 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 
 import model.Board;
+import model.Enemys;
+import model.GameState;
+import model.Player;
 import view.ConsoleView;
 import view.GraphicView;
 
@@ -18,6 +21,8 @@ public class Labyrinth {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
+
                 // Dimension of the game board (10x10).
                 // add 2 for wall around
                 int width = 10 + 2;
@@ -28,19 +33,23 @@ public class Labyrinth {
                 // Size of a field in the graphical view.
                 Dimension fieldDimensions = new Dimension(25, 25);
                 // Create and register graphical view.
+                GameState gameState = new GameState(0,board,new Player(1,1),new Enemys());
+
                 GraphicView gview = new GraphicView(
                         width * fieldDimensions.width,
                         height * fieldDimensions.height,
                         fieldDimensions);
-                board.registerView(gview);
+                gameState.registerView(gview);
                 gview.setVisible(true);
+
+
 
                 // Create and register console view.
                 ConsoleView cview = new ConsoleView();
-                board.registerView(cview);
+                gameState.registerView(cview);
 
                 // Create controller and initialize JFrame.
-                Controller controller = new Controller(board);
+                Controller controller = new Controller(gameState);
                 controller.setTitle("Square Move Practice");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
