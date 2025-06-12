@@ -20,7 +20,7 @@ public class GameState {
     private int turn;
     private Board board;
     private Player player;
-    static ArrayList<AbstractEnemy> listOfEnemies = new ArrayList<>();
+    private ArrayList<AbstractEnemy> listOfEnemies = new ArrayList<>();
     private Enemies enemies;
 
     /** Set of views registered to be notified of world updates. */
@@ -31,8 +31,7 @@ public class GameState {
         this.board = board;
         this.player = player;
         this.enemies = enemies;
-        GameState.createEnemies(this,3);
-
+        this.createEnemies(this,3);
 
         if (turn == 0) {
             History.addGameState(new GameState(this));
@@ -46,12 +45,11 @@ public class GameState {
         this.enemies = new Enemies(other.enemies);
     }
 
-    public static ArrayList<AbstractEnemy> getListOfEnemies() {
+    public ArrayList<AbstractEnemy> getListOfEnemies() {
         return listOfEnemies;
     }
 
-    public static void createEnemies(GameState gameState, int count){
-
+    public void createEnemies(GameState gameState, int count){
 
         boolean isValid = false;
         for(int i = 0; i < count; i++){
