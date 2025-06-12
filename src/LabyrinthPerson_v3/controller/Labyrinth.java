@@ -6,7 +6,7 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 
 import model.Board;
-import model.Enemys;
+import model.Enemies;
 import model.GameState;
 import model.Player;
 import view.ConsoleView;
@@ -33,7 +33,7 @@ public class Labyrinth {
                 // Size of a field in the graphical view.
                 Dimension fieldDimensions = new Dimension(25, 25);
                 // Create and register graphical view.
-                GameState gameState = new GameState(0,board,new Player(1,1),new Enemys());
+                GameState gameState = new GameState(0,board,new Player(1,1),new Enemies());
 
                 GraphicView gview = new GraphicView(
                         width * fieldDimensions.width,
