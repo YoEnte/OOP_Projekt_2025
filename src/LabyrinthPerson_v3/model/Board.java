@@ -18,9 +18,9 @@ public class Board {
 
 
 	/** The player's x position. */
-	private int playerX = 0;
+	private int playerX = 1;
 	/** The player's y position. */
-	private int playerY = 0;
+	private int playerY = 1;
 
 	private Field[][] board;
 
@@ -31,25 +31,26 @@ public class Board {
 	 * Creates a new world with the given size.t
 	 */
 	public Board(int width, int height) {
-		// Normally, we would check the arguments for proper values
+		// TODO -> check for values??? Normally, we would check the arguments for proper values
 		this.width = width;
 		this.height = height;
+
+		// add 2 for walls around maze
 		this.board = new Field[height][width];
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-
-				board[y][x] = Field.PATH;
-			}
-		}
+		generate_empty();
 	}
 
-	public void generate() {
+	public void generate_empty() {
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
 
-
+				if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
+					board[y][x] = Field.WALL;
+				} else {
+					board[y][x] = Field.PATH;
+				}
 			}
 		}
 	}
@@ -73,6 +74,17 @@ public class Board {
 	 */
 	public int getHeight() {
 		return height;
+	}
+
+	/**
+	 *
+	 */
+	public Field[][] getBoard() {
+		return board;
+	}
+
+	public Field getField(int x, int y) {
+		return board[y][x];
 	}
 
 	/**
