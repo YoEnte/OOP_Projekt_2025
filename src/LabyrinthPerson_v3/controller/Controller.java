@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import model.Direction;
-import model.World;
+import model.Board;
 import view.View;
 
 /**
@@ -19,19 +19,19 @@ import view.View;
 public class Controller extends JFrame implements KeyListener, ActionListener, MouseListener {
 
 	/** The world that is updated upon every key press. */
-	private World world;
+	private Board board;
 	private List<View> views;
 
 	/**
 	 * Creates a new instance.
 	 * 
-	 * @param world the world to be updated whenever the player should move.
+	 * @param board the world to be updated whenever the player should move.
 	 * @param caged the {@link GraphicsProgram} we want to listen for key presses
 	 *              on.
 	 */
-	public Controller(World world) {
+	public Controller(Board board) {
 		// Remember the world
-		this.world = world;
+		this.board = board;
 		
 		// Listen for key events
 		addKeyListener(this);
@@ -52,19 +52,19 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		// Check if we need to do something. Tells the world to move the player.
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			world.movePlayer(Direction.UP);
+			board.movePlayer(Direction.UP);
 			break;
 
 		case KeyEvent.VK_DOWN:
-			world.movePlayer(Direction.DOWN);
+			board.movePlayer(Direction.DOWN);
 			break;
 
 		case KeyEvent.VK_LEFT:
-			world.movePlayer(Direction.LEFT);
+			board.movePlayer(Direction.LEFT);
 			break;
 
 		case KeyEvent.VK_RIGHT:
-			world.movePlayer(Direction.RIGHT);
+			board.movePlayer(Direction.RIGHT);
 			break;
 		}
 	}

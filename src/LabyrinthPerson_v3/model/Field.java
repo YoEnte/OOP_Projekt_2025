@@ -13,8 +13,8 @@ public enum Field {
     START("Start", new Color(255, 0, 0), 'S'),
     /** Goal field */
     GOAL("Goal", new Color(0, 255, 0), 'G'),
-    /** Free field */
-    FREE("Free", new Color(255, 255, 255), ' ');
+    /** Path field */
+    PATH("Path", new Color(255, 255, 255), ' ');
 
     public final String type;
     public final Color color;

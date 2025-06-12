@@ -1,9 +1,9 @@
 package view;
 
-import model.World;
+import model.Board;
 
 /**
- * Classes that want to display the {@link World} must implement this interface
+ * Classes that want to display the {@link Board} must implement this interface
  * to be notified when the world updates.
  */
 public interface View {
@@ -11,8 +11,8 @@ public interface View {
 	/**
 	 * Called whenever the world updates.
 	 * 
-	 * @param world the {@link World} object which called this method.
+	 * @param board the {@link Board} object which called this method.
 	 */
-	void update(World world);
+	void update(Board board);
 
 }

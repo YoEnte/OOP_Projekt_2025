@@ -5,7 +5,7 @@ import java.awt.Insets;
 
 import javax.swing.JFrame;
 
-import model.World;
+import model.Board;
 import view.ConsoleView;
 import view.GraphicView;
 
@@ -22,7 +22,7 @@ public class Labyrinth {
                 int width = 10;
                 int height = 10;
                 // Create a new game world.
-                World world = new World(width, height);
+                Board board = new Board(width, height);
 
                 // Size of a field in the graphical view.
                 Dimension fieldDimensions = new Dimension(25, 25);
@@ -31,15 +31,15 @@ public class Labyrinth {
                         width * fieldDimensions.width,
                         height * fieldDimensions.height,
                         fieldDimensions);
-                world.registerView(gview);
+                board.registerView(gview);
                 gview.setVisible(true);
 
                 // Create and register console view.
                 ConsoleView cview = new ConsoleView();
-                world.registerView(cview);
+                board.registerView(cview);
 
                 // Create controller and initialize JFrame.
-                Controller controller = new Controller(world);
+                Controller controller = new Controller(board);
                 controller.setTitle("Square Move Practice");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
