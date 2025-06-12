@@ -13,8 +13,8 @@ public class ConsoleView implements View {
 	@Override
 	public void update(GameState gameState) {
 		// The player's position
-		int playerX = gameState.getPlayer().getPlayerX();
-		int playerY = gameState.getPlayer().getPlayerY();
+		int playerX = gameState.getPlayer().getPositionX();
+		int playerY = gameState.getPlayer().getPositionY();
 		Field[][] board = gameState.getBoard().getFieldList();
 
 		for (int row = 0; row < gameState.getBoard().getHeight(); row++) {
