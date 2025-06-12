@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import model.generators.Generator;
+import model.generators.GeneratorEmpty;
 import view.View;
 
 /**
@@ -28,29 +30,13 @@ public class Board {
 		this.height = height;
 
 		// add 2 for walls around maze
-		this.board = new Field[height][width];
-
-		generate_empty();
+		this.board = GeneratorEmpty.generate(width, height);
 	}
 
 	public Board(Board other) {
 		this.width = other.width;
 		this.height = other.height;
 		this.board = other.board.clone();
-	}
-
-	public void generate_empty() {
-
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-
-				if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
-					board[y][x] = Field.WALL;
-				} else {
-					board[y][x] = Field.PATH;
-				}
-			}
-		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////
