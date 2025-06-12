@@ -75,13 +75,14 @@ public class GameState {
      * @param direction where to move.
      */
     public void movePlayer(Direction direction) {
+        History.removeGameStatesUntil(turn);
+
         // The direction tells us exactly how much we need to move along
         // every direction
         setPlayerX(player.getPlayerX() + direction.deltaX);
         setPlayerY(player.getPlayerY() + direction.deltaY);
         turn++;
 
-        History.removeGameStatesUntil(turn);
         History.addGameState(new GameState(this));
 
         updateViews();
@@ -97,11 +98,11 @@ public class GameState {
             System.out.println(turn);
 
             turn += stepSize;
-            board = historyGamestate.getBoard();
-            player = historyGamestate.getPlayer();
+            board = new Board(historyGamestate.getBoard());
+            player = new Player(historyGamestate.getPlayer());
             System.out.println(player.getPlayerX());
             System.out.println(player.getPlayerY());
-            enemies = historyGamestate.getEnemies();
+            enemies = new Enemies(historyGamestate.getEnemies());
 
             System.out.println(this.turn);
 
