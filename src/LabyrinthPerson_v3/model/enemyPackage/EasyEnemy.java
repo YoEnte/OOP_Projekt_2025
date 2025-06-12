@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class EasyEnemy extends AbstractEnemy{
+public class EasyEnemy extends Enemy {
     static Random random = new Random();
 
 
     public EasyEnemy(int positionX,int positionY){
         super(positionX, positionY);
+    }
+
+    public EasyEnemy(EasyEnemy other) {
+        super(other.getPositionX(), other.getPositionY());
     }
 
     //TODO Fix invalid moves

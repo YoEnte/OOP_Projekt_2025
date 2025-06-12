@@ -1,9 +1,7 @@
 package model;
 
 
-import model.enemyPackage.AbstractEnemy;
-import model.enemyPackage.EasyEnemy;
-import model.enemyPackage.Enemies;
+import model.enemyPackage.*;
 import model.rules.GameRuleLogic;
 import model.rules.InvalidMoveException;
 import model.rules.InvalidSpawnException;
@@ -11,7 +9,6 @@ import view.View;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import static model.rules.GameRuleLogic.isValidToSpawn;
 
@@ -20,18 +17,27 @@ public class GameState {
     private int turn;
     private Board board;
     private Player player;
-    private ArrayList<AbstractEnemy> listOfEnemies = new ArrayList<>();
-    private Enemies enemies;
+    private ArrayList<Enemy> listOfEnemies = new ArrayList<>();
 
     /** Set of views registered to be notified of world updates. */
     private final ArrayList<View> views = new ArrayList<>();
 
-    public GameState(int turn, Board board, Player player, Enemies enemies){
+    public GameState(int turn, Board board, Player player){
         this.turn = turn;
         this.board = board;
         this.player = player;
-        this.enemies = enemies;
         this.createEnemies(this,3);
+
+        if (turn == 0) {
+            History.addGameState(new GameState(this));
+        }
+    }
+
+    public GameState(int turn, Board board, Player player, ArrayList<Enemy> listOfEnemies){
+        this.turn = turn;
+        this.board = board;
+        this.player = player;
+        this.listOfEnemies = listOfEnemies;
 
         if (turn == 0) {
             History.addGameState(new GameState(this));
@@ -42,10 +48,20 @@ public class GameState {
         this.turn = other.turn;
         this.board = new Board(other.board);
         this.player = new Player(other.player);
-        this.enemies = new Enemies(other.enemies);
+
+        this.listOfEnemies = new ArrayList<>();
+        for (Enemy e : other.listOfEnemies) {
+            if (e.getClass() == EasyEnemy.class) {
+                this.listOfEnemies.add(new EasyEnemy((EasyEnemy) e));
+            } else if (e.getClass() == NormalEnemy.class) {
+                this.listOfEnemies.add(new NormalEnemy((NormalEnemy) e));
+            } else if (e.getClass() == HardEnemy.class) {
+                this.listOfEnemies.add(new HardEnemy((HardEnemy) e));
+            }
+        }
     }
 
-    public ArrayList<AbstractEnemy> getListOfEnemies() {
+    public ArrayList<Enemy> getListOfEnemies() {
         return listOfEnemies;
     }
 
@@ -79,8 +95,8 @@ public class GameState {
         return board;
     }
 
-    public Enemies getEnemies() {
-        return enemies;
+    public ArrayList<Enemy> getEnemies() {
+        return listOfEnemies;
     }
 
 
@@ -128,7 +144,7 @@ public class GameState {
             updateViews();
 
             // TODO Add wait time
-            for (AbstractEnemy enemy : listOfEnemies){
+            for (Enemy enemy : listOfEnemies){
                 if(enemy.getClass() == EasyEnemy.class){
                     ((EasyEnemy)enemy).performMove(this, (EasyEnemy)enemy);
                 }
@@ -155,8 +171,18 @@ public class GameState {
             turn += stepSize;
             board = new Board(historyGamestate.getBoard());
             player = new Player(historyGamestate.getPlayer());
-            enemies = new Enemies(historyGamestate.getEnemies());
-            listOfEnemies = (ArrayList<AbstractEnemy>)getListOfEnemies().clone();
+
+            // TODO: Enemy copy method for less redundant code
+            listOfEnemies = new ArrayList<>();
+            for (Enemy e : historyGamestate.listOfEnemies) {
+                if (e.getClass() == EasyEnemy.class) {
+                    this.listOfEnemies.add(new EasyEnemy((EasyEnemy) e));
+                } else if (e.getClass() == NormalEnemy.class) {
+                    this.listOfEnemies.add(new NormalEnemy((NormalEnemy) e));
+                } else if (e.getClass() == HardEnemy.class) {
+                    this.listOfEnemies.add(new HardEnemy((HardEnemy) e));
+                }
+            }
 
             updateViews();
 

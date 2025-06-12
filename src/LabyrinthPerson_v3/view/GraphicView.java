@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import model.GameState;
-import model.enemyPackage.AbstractEnemy;
+import model.enemyPackage.Enemy;
 
 /**
  * A graphical view of the world.
@@ -109,7 +109,7 @@ public class GraphicView extends JPanel implements View {
 		);
 
 		enemies.clear();
-		for (AbstractEnemy e : gameState.getListOfEnemies()) {
+		for (Enemy e : gameState.getListOfEnemies()) {
 			Rectangle r = new Rectangle();
 			r.setSize(fieldDimension);
 			r.setLocation(

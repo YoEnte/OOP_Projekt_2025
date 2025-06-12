@@ -3,7 +3,7 @@ package model.rules;
 import model.Direction;
 import model.Field;
 import model.GameState;
-import model.enemyPackage.AbstractEnemy;
+import model.enemyPackage.Enemy;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class GameRuleLogic {
         if(gameState.getPlayer().getPositionX() == positionX && gameState.getPlayer().getPositionY() == positionY){
 
             if(!gameState.getListOfEnemies().isEmpty()){
-                for(AbstractEnemy e : gameState.getListOfEnemies()){
+                for(Enemy e : gameState.getListOfEnemies()){
                     if(e.getPositionX() == playerX && e.getPositionY() == playerY){
                         throw new InvalidMoveException("There is an Enemy");
                     }
@@ -48,7 +48,7 @@ public class GameRuleLogic {
             throw new InvalidSpawnException("There is the Player");
         }
         if(!gameState.getListOfEnemies().isEmpty()){
-            for(AbstractEnemy e : gameState.getListOfEnemies()){
+            for(Enemy e : gameState.getListOfEnemies()){
                 if(e.getPositionX() == positionX && e.getPositionY() == positionY){
                     throw new InvalidSpawnException("There is an Enemy");
                 }
