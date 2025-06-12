@@ -14,9 +14,7 @@ public class GameRuleLogic {
         int playerX = gameState.getPlayer().getPositionX() + direction.deltaX;
         int playerY = gameState.getPlayer().getPositionY() + direction.deltaY;
 
-        if((gameState.getBoard().getFieldList())[playerX][playerY] ==  Field.WALL){
-            throw new InvalidMoveException("There is a Wall");
-        }
+
         
         // TODO Hier muss alles rein, was den Spieler betrifft. Sonst ist alles andere allgemein gehalten
         if(gameState.getPlayer().getPositionX() == positionX && gameState.getPlayer().getPositionY() == positionY){
@@ -28,8 +26,15 @@ public class GameRuleLogic {
                     }
                 }
             }
+            if((gameState.getBoard().getFieldList())[playerX][playerY] ==  Field.WALL){
+                throw new InvalidMoveException("There is a Wall");
+            }
 
 
+        } else{
+            if((gameState.getBoard().getFieldList())[positionX + direction.deltaX][positionY + direction.deltaY] ==  Field.WALL){
+                throw new InvalidMoveException("There is a Wall");
+            }
         }
         return true;
     }

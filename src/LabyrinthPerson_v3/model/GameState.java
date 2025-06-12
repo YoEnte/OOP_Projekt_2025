@@ -142,8 +142,6 @@ public class GameState {
 
         } catch (InvalidMoveException e){
             //Pass
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
 
 
