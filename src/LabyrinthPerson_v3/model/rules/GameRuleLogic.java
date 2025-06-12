@@ -3,7 +3,7 @@ package model.rules;
 import model.Direction;
 import model.Field;
 import model.GameState;
-import model.enemyPackage.AbstractEnemy;
+import model.enemyPackage.Enemy;
 
 import java.util.ArrayList;
 
@@ -19,8 +19,8 @@ public class GameRuleLogic {
         // TODO Hier muss alles rein, was den Spieler betrifft. Sonst ist alles andere allgemein gehalten
         if(gameState.getPlayer().getPositionX() == positionX && gameState.getPlayer().getPositionY() == positionY){
 
-            if(!GameState.getListOfEnemies().isEmpty()){
-                for(AbstractEnemy e : GameState.getListOfEnemies()){
+            if(!gameState.getListOfEnemies().isEmpty()){
+                for(Enemy e : gameState.getListOfEnemies()){
                     if(e.getPositionX() == playerX && e.getPositionY() == playerY){
                         throw new InvalidMoveException("There is an Enemy");
                     }
@@ -47,8 +47,8 @@ public class GameRuleLogic {
         if(gameState.getPlayer().getPositionX() == positionX && gameState.getPlayer().getPositionY() == positionY){
             throw new InvalidSpawnException("There is the Player");
         }
-        if(!GameState.getListOfEnemies().isEmpty()){
-            for(AbstractEnemy e : GameState.getListOfEnemies()){
+        if(!gameState.getListOfEnemies().isEmpty()){
+            for(Enemy e : gameState.getListOfEnemies()){
                 if(e.getPositionX() == positionX && e.getPositionY() == positionY){
                     throw new InvalidSpawnException("There is an Enemy");
                 }

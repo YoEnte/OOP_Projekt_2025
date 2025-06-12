@@ -1,10 +1,10 @@
 package model.enemyPackage;
 
-public class AbstractEnemy {
+public abstract class Enemy {
 
     private int x;
     private int y;
-    protected AbstractEnemy(int x, int y){
+    protected Enemy(int x, int y){
         this.x = x;
         this.y = y;
     }
