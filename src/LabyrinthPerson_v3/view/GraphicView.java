@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
-import model.World;
+import model.Board;
 
 /**
  * A graphical view of the world.
@@ -47,13 +47,13 @@ public class GraphicView extends JPanel implements View {
 	}
 
 	@Override
-	public void update(World world) {
+	public void update(Board board) {
 
 		// Update players size and location
 		player.setSize(fieldDimension);
 		player.setLocation(
-			(int) (world.getPlayerX() * fieldDimension.width),
-			(int) (world.getPlayerY() * fieldDimension.height)
+			(int) (board.getPlayerX() * fieldDimension.width),
+			(int) (board.getPlayerY() * fieldDimension.height)
 		);
 		repaint();
 	}

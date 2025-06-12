@@ -9,16 +9,20 @@ import view.View;
  * accurately reflect the state of the game. Note how this does not know
  * anything about graphics.
  */
-public class World {
+public class Board {
 
 	/** The world's width. */
 	private final int width;
 	/** The world's height. */
 	private final int height;
-	/** The player's x position in the world. */
+
+
+	/** The player's x position. */
 	private int playerX = 0;
-	/** The player's y position in the world. */
+	/** The player's y position. */
 	private int playerY = 0;
+
+	private Field[][] board;
 
 	/** Set of views registered to be notified of world updates. */
 	private final ArrayList<View> views = new ArrayList<>();
@@ -26,10 +30,28 @@ public class World {
 	/**
 	 * Creates a new world with the given size.t
 	 */
-	public World(int width, int height) {
+	public Board(int width, int height) {
 		// Normally, we would check the arguments for proper values
 		this.width = width;
 		this.height = height;
+		this.board = new Field[height][width];
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+
+				board[y][x] = Field.PATH;
+			}
+		}
+	}
+
+	public void generate() {
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+
+
+			}
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -127,7 +149,7 @@ public class World {
 	}
 
 	/**
-	 * Updates all views by calling their {@link View#update(World)} methods.
+	 * Updates all views by calling their {@link View#update(Board)} methods.
 	 */
 	private void updateViews() {
 		for (int i = 0; i < views.size(); i++) {

@@ -1,6 +1,6 @@
 package view;
 
-import model.World;
+import model.Board;
 
 /**
  * A view that prints the current state of the world to the console upon every
@@ -9,13 +9,13 @@ import model.World;
 public class ConsoleView implements View {
 
 	@Override
-	public void update(World world) {
+	public void update(Board board) {
 		// The player's position
-		int playerX = world.getPlayerX();
-		int playerY = world.getPlayerY();
+		int playerX = board.getPlayerX();
+		int playerY = board.getPlayerY();
 
-		for (int row = 0; row < world.getHeight(); row++) {
-			for (int col = 0; col < world.getWidth(); col++) {
+		for (int row = 0; row < board.getHeight(); row++) {
+			for (int col = 0; col < board.getWidth(); col++) {
 				// If the player is here, print #, otherwise print .
 				if (row == playerY && col == playerX) {
 					System.out.print("#");
