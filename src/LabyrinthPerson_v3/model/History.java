@@ -9,12 +9,22 @@ public class History {
         return pastGameStates;
     }
 
-    public void addGameState(GameState gameToAdd){
+    public static void addGameState(GameState gameToAdd){
         pastGameStates.add(gameToAdd);
     }
 
-    public void removeGamStates(int count){
-        for(int i = 0; i < count; i++){
+    public static GameState getGameStateByIndex(int i) {
+
+        if (i < 0 || i >= pastGameStates.size()) {
+            throw new IndexOutOfBoundsException("No GameStates available");
+        } else {
+            return pastGameStates.get(i);
+        }
+    }
+
+    public static void removeGameStatesUntil(int turn){
+
+        while (pastGameStates.size() > turn) {
             pastGameStates.removeLast();
         }
     }

@@ -10,6 +10,11 @@ public class Player {
 
     }
 
+    public Player(Player other) {
+        this.playerX = other.playerX;
+        this.playerY = other.playerY;
+    }
+
     public void setPlayerX(int playerX) {
         this.playerX = playerX;
     }

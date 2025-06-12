@@ -33,6 +33,12 @@ public class Board {
 		generate_empty();
 	}
 
+	public Board(Board other) {
+		this.width = other.width;
+		this.height = other.height;
+		this.board = other.board.clone();
+	}
+
 	public void generate_empty() {
 
 		for (int y = 0; y < height; y++) {
