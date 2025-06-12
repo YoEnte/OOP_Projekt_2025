@@ -9,16 +9,16 @@ public class GameState {
     private int turn;
     private Board board;
     private Player player;
-    private Enemys enemys;
+    private Enemies enemies;
 
     /** Set of views registered to be notified of world updates. */
     private final ArrayList<View> views = new ArrayList<>();
 
-    public GameState(int turn, Board board, Player player, Enemys enemys){
+    public GameState(int turn, Board board, Player player, Enemies enemies){
         this.turn = turn;
         this.board = board;
         this.player = player;
-        this.enemys = enemys;
+        this.enemies = enemies;
     }
 
     public Player getPlayer() {
@@ -86,7 +86,7 @@ public class GameState {
     }
 
     /**
-     * Updates all views by calling their {@link View#update(Board)} methods.
+     * Updates all views by calling their {@link View#update(GameState)} methods.
      */
     private void updateViews() {
         for (int i = 0; i < views.size(); i++) {
