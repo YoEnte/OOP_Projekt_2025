@@ -1,14 +1,22 @@
 package model;
 
 
+import model.enemy.AbstractEnemy;
+import model.enemy.EasyEnemy;
+import model.enemy.Enemies;
+import model.rules.GameRuleLogic;
+import model.rules.InvalidMoveException;
 import view.View;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameState {
+    static Random random = new Random();
     private int turn;
     private Board board;
     private Player player;
+    static ArrayList<AbstractEnemy> listOfEnemies = new ArrayList<>();
     private Enemies enemies;
 
     /** Set of views registered to be notified of world updates. */
@@ -19,6 +27,8 @@ public class GameState {
         this.board = board;
         this.player = player;
         this.enemies = enemies;
+        GameState.createEnemies();
+
 
         if (turn == 0) {
             History.addGameState(new GameState(this));
@@ -32,9 +42,24 @@ public class GameState {
         this.enemies = new Enemies(other.enemies);
     }
 
+    public static ArrayList<AbstractEnemy> getListOfEnemies() {
+        return listOfEnemies;
+    }
+
+    public static void createEnemies(){
+        listOfEnemies.add(new EasyEnemy(random.nextInt(10)+1, random.nextInt(10)+1));
+        listOfEnemies.add(new EasyEnemy(random.nextInt(10)+1, random.nextInt(10)+1));
+        listOfEnemies.add(new EasyEnemy(random.nextInt(10)+1, random.nextInt(10)+1));
+
+
+
+
+    }
+
     public Player getPlayer() {
         return player;
     }
+
 
     public Board getBoard() {
         return board;
@@ -43,6 +68,8 @@ public class GameState {
     public Enemies getEnemies() {
         return enemies;
     }
+
+
 
     /**
      * Sets the player's x position.
@@ -77,15 +104,25 @@ public class GameState {
     public void movePlayer(Direction direction) {
         History.removeGameStatesUntil(turn);
 
-        // The direction tells us exactly how much we need to move along
-        // every direction
-        setPlayerX(player.getPlayerX() + direction.deltaX);
-        setPlayerY(player.getPlayerY() + direction.deltaY);
-        turn++;
+        try {
+            GameRuleLogic.isValidToMove(this, direction, player.getPositionX(), player.getPositionY());
+            // The direction tells us exactly how much we need to move along
+            // every direction
+            setPlayerX(player.getPositionX() + direction.deltaX);
+            setPlayerY(player.getPositionY() + direction.deltaY);
+            turn++;
 
-        History.addGameState(new GameState(this));
+            History.addGameState(new GameState(this));
 
-        updateViews();
+            updateViews();
+
+
+        } catch (InvalidMoveException e){
+            //Pass
+        }
+
+
+
     }
 
     ///////////////////////////////////////////////////////////////////////////

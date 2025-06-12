@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import model.Board;
 import model.Field;
 import model.GameState;
+import model.enemy.AbstractEnemy;
+import model.enemy.Enemies;
 
 /**
  * A graphical view of the world.
@@ -54,6 +57,8 @@ public class GraphicView extends JPanel implements View {
 	private final Rectangle bg;
 	/** The rectangle we're moving. */
 	private final Rectangle player = new Rectangle(0, 0);
+	private ArrayList<Rectangle> enemies = new ArrayList<>();
+
 
 	private final Rectangle[][] board;
 
@@ -79,17 +84,45 @@ public class GraphicView extends JPanel implements View {
 		// Paint player
 		g.setColor(new Color(255, 0, 255));
 		g.fillRect(player.x, player.y, player.width, player.height);
+
+		g.setColor(new Color(255, 100, 0));
+		for (Rectangle r : enemies) {
+			g.fillRect(r.x, r.y, r.width, r.height);
+		}
+
+
+//		ArrayList<AbstractEnemy> enemies = GameState.getListOfEnemies();
+//		System.out.println(enemies.get(0).getPositionX());
+//		System.out.println(enemies.get(0).getClass());
+//
+//		// g.fillRect(enemies.get(0).getPositionX(), enemies.get(0).getPositionY(), enemy.width, enemy.height);
+
+
 	}
 
 	@Override
 	public void update(GameState gameState) {
 
+
 		// Update players size and location
 		player.setSize(fieldDimension);
 		player.setLocation(
-			(int) (gameState.getPlayer().getPlayerX() * fieldDimension.width),
-			(int) (gameState.getPlayer().getPlayerY() * fieldDimension.height)
+			(int) (gameState.getPlayer().getPositionX() * fieldDimension.width),
+			(int) (gameState.getPlayer().getPositionY() * fieldDimension.height)
 		);
+
+		enemies.clear();
+		for (AbstractEnemy e : GameState.getListOfEnemies()) {
+			Rectangle r = new Rectangle();
+			r.setSize(fieldDimension);
+			r.setLocation(
+					(int) (e.getPositionX() * fieldDimension.width),
+					(int) (e.getPositionY() * fieldDimension.height)
+			);
+			enemies.add(r);
+		}
+
+
 
 		// Update Field sizes and locations
 		for (int y = 0; y < BOARD_HEIGHT; y++) {

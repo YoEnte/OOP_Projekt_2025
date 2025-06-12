@@ -23,11 +23,11 @@ public class Player {
         this.playerY = playerY;
     }
 
-    public int getPlayerX() {
+    public int getPositionX() {
         return playerX;
     }
 
-    public int getPlayerY() {
+    public int getPositionY() {
         return playerY;
     }
 }
