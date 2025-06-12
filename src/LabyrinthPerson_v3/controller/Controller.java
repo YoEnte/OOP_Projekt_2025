@@ -52,19 +52,19 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 	public void keyPressed(KeyEvent e) {
 		// Check if we need to do something. Tells the world to move the player.
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
+		case KeyEvent.VK_UP, 87:
 			gameState.movePlayer(Direction.UP);
 			break;
 
-		case KeyEvent.VK_DOWN:
+		case KeyEvent.VK_DOWN, 83:
 			gameState.movePlayer(Direction.DOWN);
 			break;
 
-		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_LEFT, 65:
 			gameState.movePlayer(Direction.LEFT);
 			break;
 
-		case KeyEvent.VK_RIGHT:
+		case KeyEvent.VK_RIGHT, 68:
 			gameState.movePlayer(Direction.RIGHT);
 			break;
 		}
