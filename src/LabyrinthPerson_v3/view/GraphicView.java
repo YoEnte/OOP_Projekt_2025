@@ -77,7 +77,7 @@ public class GraphicView extends JPanel implements View {
 		}
 
 		// Paint player
-		g.setColor(Color.BLACK);
+		g.setColor(new Color(255, 0, 255));
 		g.fillRect(player.x, player.y, player.width, player.height);
 	}
 
