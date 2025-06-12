@@ -19,6 +19,17 @@ public class GameState {
         this.board = board;
         this.player = player;
         this.enemies = enemies;
+
+        if (turn == 0) {
+            History.addGameState(new GameState(this));
+        }
+    }
+
+    public GameState(GameState other) {
+        this.turn = other.turn;
+        this.board = new Board(other.board);
+        this.player = new Player(other.player);
+        this.enemies = new Enemies(other.enemies);
     }
 
     public Player getPlayer() {
@@ -27,6 +38,10 @@ public class GameState {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Enemies getEnemies() {
+        return enemies;
     }
 
     /**
@@ -38,8 +53,6 @@ public class GameState {
         playerX = Math.max(0, playerX);
         playerX = Math.min(board.getWidth() - 1, playerX);
         this.player.setPlayerX(playerX);
-
-        updateViews();
     }
 
     /**
@@ -51,8 +64,6 @@ public class GameState {
         playerY = Math.max(0, playerY);
         playerY = Math.min(board.getHeight() - 1, playerY);
         this.player.setPlayerY(playerY);
-
-        updateViews();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -68,8 +79,38 @@ public class GameState {
         // every direction
         setPlayerX(player.getPlayerX() + direction.deltaX);
         setPlayerY(player.getPlayerY() + direction.deltaY);
+        turn++;
+
+        History.removeGameStatesUntil(turn);
+        History.addGameState(new GameState(this));
+
+        updateViews();
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Timeline Management
+    public void stepGameState(int stepSize) {
+
+        try {
+            GameState historyGamestate = History.getGameStateByIndex(turn + stepSize);
+
+            System.out.println(turn);
+
+            turn += stepSize;
+            board = historyGamestate.getBoard();
+            player = historyGamestate.getPlayer();
+            System.out.println(player.getPlayerX());
+            System.out.println(player.getPlayerY());
+            enemies = historyGamestate.getEnemies();
+
+            System.out.println(this.turn);
+
+            updateViews();
+
+        } catch (IndexOutOfBoundsException e) {
+            // pass
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // View Management
