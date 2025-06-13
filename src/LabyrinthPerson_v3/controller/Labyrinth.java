@@ -24,15 +24,15 @@ public class Labyrinth {
 
                 // Dimension of the game board (10x10).
                 // add 2 for wall around
-                int width = 10 + 2;
-                int height = 10 + 2;
+                int width = 18 + 2;
+                int height = 18 + 2;
                 // Create a new game world.
                 Board board = new Board(width, height);
 
                 // Size of a field in the graphical view.
                 Dimension fieldDimensions = new Dimension(25, 25);
                 // Create and register graphical view.
-                GameState gameState = new GameState(0, board, new Player(1,1));
+                GameState gameState = new GameState(0, board, new Player(1,2));
                 System.out.println();
 
 

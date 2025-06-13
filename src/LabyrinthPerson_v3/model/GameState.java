@@ -18,6 +18,7 @@ public class GameState {
     private Board board;
     private Player player;
     private ArrayList<Enemy> listOfEnemies = new ArrayList<>();
+    private boolean gameEnd;
 
     /** Set of views registered to be notified of world updates. */
     private final ArrayList<View> views = new ArrayList<>();
@@ -26,6 +27,8 @@ public class GameState {
         this.turn = turn;
         this.board = board;
         this.player = player;
+        this.gameEnd = false;
+
         this.createEnemies(this,3);
 
         if (turn == 0) {
@@ -71,8 +74,8 @@ public class GameState {
         for(int i = 0; i < count; i++){
             while (!isValid){
                 try {
-                    int x = random.nextInt(10)+1;
-                    int y = random.nextInt(10)+1;
+                    int x = random.nextInt(gameState.board.getWidth()-1)+1;
+                    int y = random.nextInt(gameState.board.getHeight()-1)+1;
                     isValidToSpawn(gameState, x, y );
                     listOfEnemies.add(new EasyEnemy(x, y));
                     isValid = true;
@@ -138,28 +141,34 @@ public class GameState {
             GameRuleLogic.isValidToMove(this, direction, player.getPositionX(), player.getPositionY());
             // The direction tells us exactly how much we need to move along
             // every direction
+
+
             setPlayerX(player.getPositionX() + direction.deltaX);
             setPlayerY(player.getPositionY() + direction.deltaY);
-            turn++;
-            updateViews();
-
-            // TODO Add wait time
-            for (Enemy enemy : listOfEnemies){
-                if(enemy.getClass() == EasyEnemy.class){
-                    ((EasyEnemy)enemy).performMove(this, (EasyEnemy)enemy);
-                }
-
+            if(GameRuleLogic.playerInGoal(this)){
+                this.gameEnd = true;
+                System.exit(-1);
             }
-            History.addGameState(new GameState(this));
-            updateViews();
 
+
+            turn++;
+            moveEnemies();
+            History.addGameState(new GameState(this));
 
         } catch (InvalidMoveException e){
-            //Pass
+            System.out.println(e.getMessage());
         }
 
-
     }
+    public void moveEnemies() {
+        for (Enemy enemy : listOfEnemies){
+            if(enemy.getClass() == EasyEnemy.class){
+                ((EasyEnemy)enemy).performMove(this, (EasyEnemy)enemy);
+            }
+        }
+        updateViews();
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Timeline Management
@@ -208,7 +217,7 @@ public class GameState {
     /**
      * Updates all views by calling their {@link View#update(GameState)} methods.
      */
-    private void updateViews() {
+    public void updateViews() {
         for (int i = 0; i < views.size(); i++) {
             views.get(i).update(this);
         }
