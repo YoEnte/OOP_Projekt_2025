@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.generators.Generator;
 import model.generators.GeneratorEmpty;
+import model.generators.TestMaze;
 import view.View;
 
 /**
@@ -30,7 +31,7 @@ public class Board {
 		this.height = height;
 
 		// add 2 for walls around maze
-		this.board = GeneratorEmpty.generate(width, height);
+		this.board = TestMaze.generate();
 	}
 
 	public Board(Board other) {
@@ -41,6 +42,8 @@ public class Board {
 
 	///////////////////////////////////////////////////////////////////////////
 	// Getters and Setters
+
+	//public Field getStart
 
 	/**
 	 * Returns the width of the world.

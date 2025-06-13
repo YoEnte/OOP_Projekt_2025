@@ -36,7 +36,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		
 		// Listen for key events
 		addKeyListener(this);
-		// Listen for mouse events.
+        // Listen for mouse events.
 		// Not used in the current implementation.
 		addMouseListener(this);
 	}
@@ -54,7 +54,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP, 87:
 			gameState.movePlayer(Direction.UP);
-			break;
+            break;
 
 		case KeyEvent.VK_DOWN, 83:
 			gameState.movePlayer(Direction.DOWN);
