@@ -54,18 +54,31 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP, 87:
 			gameState.movePlayer(Direction.UP);
+
+			if(gameState.isGameEnded()){
+				this.dispose();
+			}
             break;
 
 		case KeyEvent.VK_DOWN, 83:
 			gameState.movePlayer(Direction.DOWN);
+			if(gameState.isGameEnded()){
+				this.dispose();
+			}
 			break;
 
 		case KeyEvent.VK_LEFT, 65:
 			gameState.movePlayer(Direction.LEFT);
+			if(gameState.isGameEnded()){
+				this.dispose();
+			}
 			break;
 
 		case KeyEvent.VK_RIGHT, 68:
 			gameState.movePlayer(Direction.RIGHT);
+			if(gameState.isGameEnded()){
+				this.dispose();
+			}
 			break;
 
 		case 79:
@@ -77,6 +90,7 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 			break;
 		}
 	}
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {

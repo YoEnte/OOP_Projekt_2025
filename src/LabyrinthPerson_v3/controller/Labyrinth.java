@@ -11,15 +11,21 @@ import model.Player;
 import view.ConsoleView;
 import view.GraphicView;
 
+import model.Difficulty;
+import view.MenuScreen;
+
 /**
  * This is our main program. It is responsible for creating all of the objects
  * that are part of the MVC pattern and connecting them with each other.
  */
 public class Labyrinth {
 
-    public static void main(String[] args) {
+
+    public static void main() {
+
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
 
 
                 // Dimension of the game board (10x10).
@@ -31,8 +37,11 @@ public class Labyrinth {
 
                 // Size of a field in the graphical view.
                 Dimension fieldDimensions = new Dimension(25, 25);
+
+                Difficulty difficulty = MenuScreen.showMenu();
+
                 // Create and register graphical view.
-                GameState gameState = new GameState(0, board, new Player(1,2));
+                GameState gameState = new GameState(0, board, new Player(1,2), difficulty);
 
 
 
@@ -42,6 +51,9 @@ public class Labyrinth {
                         fieldDimensions);
                 gameState.registerView(gview);
                 gview.setVisible(true);
+
+
+
 
 
 
