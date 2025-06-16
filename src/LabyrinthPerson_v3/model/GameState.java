@@ -5,10 +5,13 @@ import model.enemyPackage.*;
 import model.rules.GameRuleLogic;
 import model.rules.InvalidMoveException;
 import model.rules.InvalidSpawnException;
+import view.GraphicView;
 import view.View;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import static model.rules.GameRuleLogic.isValidToSpawn;
 
@@ -111,7 +114,7 @@ public class GameState {
      */
     public void setPlayerX(int playerX) {
         playerX = Math.max(0, playerX);
-        playerX = Math.min(board.getWidth() - 1, playerX);
+        playerX = Math.min(board.getWidth(), playerX);
         this.player.setPlayerX(playerX);
     }
 
@@ -122,7 +125,7 @@ public class GameState {
      */
     public void setPlayerY(int playerY) {
         playerY = Math.max(0, playerY);
-        playerY = Math.min(board.getHeight() - 1, playerY);
+        playerY = Math.min(board.getHeight(), playerY);
         this.player.setPlayerY(playerY);
     }
 
@@ -138,26 +141,40 @@ public class GameState {
         History.removeGameStatesUntil(turn);
 
         try {
+            //(this.player.getPositionX());
+            //(this.player.getPositionY());
             GameRuleLogic.isValidToMove(this, direction, player.getPositionX(), player.getPositionY());
             // The direction tells us exactly how much we need to move along
             // every direction
 
 
-            setPlayerX(player.getPositionX() + direction.deltaX);
-            setPlayerY(player.getPositionY() + direction.deltaY);
-            if(GameRuleLogic.playerInGoal(this)){
-                this.gameEnd = true;
-                System.exit(-1);
-            }
-
+            player.setPlayerX(player.getPositionX() + direction.deltaX);
+            player.setPlayerY(player.getPositionY() + direction.deltaY);
+            //(this.player.getPositionX());
+            //(this.player.getPositionY());
 
             turn++;
+
+            //updateViews();
+
+            TimeUnit.MILLISECONDS.sleep(100);
             moveEnemies();
+            updateViews();
+            if(GameRuleLogic.playerInGoal(this, this.player.getPositionX(), this.player.getPositionY())){
+                this.gameEnd = true;
+                vanishWalls();
+                updateViews();
+            }
+
             History.addGameState(new GameState(this));
 
         } catch (InvalidMoveException e){
             System.out.println(e.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        System.out.println(player.getPositionX());
+        System.out.println(player.getPositionY());
 
     }
     public void moveEnemies() {
@@ -166,7 +183,19 @@ public class GameState {
                 ((EasyEnemy)enemy).performMove(this, (EasyEnemy)enemy);
             }
         }
-        updateViews();
+    }
+
+    public void vanishWalls(){
+        ArrayList<Coordinates> wallIndexArr = board.getIndexForFieldType(Field.WALL);
+        for(Coordinates c : wallIndexArr){
+            board = board.setFieldOnBoard(this.board, c, Field.PATH);
+            updateViews();
+            try {
+                TimeUnit.MILLISECONDS.sleep(25);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 

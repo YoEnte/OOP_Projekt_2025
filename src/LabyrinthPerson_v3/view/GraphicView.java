@@ -89,12 +89,15 @@ public class GraphicView extends JPanel implements View {
 
 
 //		ArrayList<AbstractEnemy> enemies = GameState.getListOfEnemies();
-//		System.out.println(enemies.get(0).getPositionX());
-//		System.out.println(enemies.get(0).getClass());
+//		(enemies.get(0).getPositionX());
+//		(enemies.get(0).getClass());
 //
 //		// g.fillRect(enemies.get(0).getPositionX(), enemies.get(0).getPositionY(), enemy.width, enemy.height);
 
 
+	}
+	public void gameStateRepaint(GameState gameState){
+		update(gameState);
 	}
 
 	@Override
@@ -134,6 +137,7 @@ public class GraphicView extends JPanel implements View {
 		}
 
 		repaint();
+		paintImmediately(0, 0, getWidth(), getHeight());
 	}
 
 }

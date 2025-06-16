@@ -20,6 +20,9 @@ public class GameRuleLogic {
         
         // TODO Hier muss alles rein, was den Spieler betrifft. Sonst ist alles andere allgemein gehalten
         if(gameState.getPlayer().getPositionX() == positionX && gameState.getPlayer().getPositionY() == positionY){
+            if((playerX >= gameState.getBoard().getWidth() || playerX < 0) || (playerY >= gameState.getBoard().getHeight() || playerY < 0)){
+                throw new InvalidMoveException("The position is out of bounds");
+            }
 
             if(!gameState.getListOfEnemies().isEmpty()){
                 for(Enemy e : gameState.getListOfEnemies()){
@@ -77,18 +80,22 @@ public class GameRuleLogic {
         allDirections.add(Direction.NONE);
 
         for(Direction direction: allDirections){
-            try {
-                GameRuleLogic.isValidToMove(gameState, direction, x, y);
-                validDirections.add(direction);
+            System.out.println(gameState.getBoard().getHeight());
+            if(((gameState.getBoard().getHeight() > (y + direction.deltaY) && (y + direction.deltaY) > -1)) && ((gameState.getBoard().getWidth() > (x + direction.deltaX) && (x + direction.deltaX > -1)))){
+                try {
+                    GameRuleLogic.isValidToMove(gameState, direction, x, y);
+                    validDirections.add(direction);
 
-            }catch (InvalidMoveException e){
-                //pass
+                }catch (InvalidMoveException e){
+                    //pass
+                }
             }
+
         }
         return validDirections;
     }
 
-    public static boolean playerInGoal(GameState gameState) {
-        return (gameState.getBoard().getFieldList())[gameState.getPlayer().getPositionY()][gameState.getPlayer().getPositionX()] == Field.GOAL;
+    public static boolean playerInGoal(GameState gameState, int x, int y) {
+        return (gameState.getBoard().getFieldList())[y][x] == Field.GOAL;
     }
 }
