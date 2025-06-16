@@ -18,7 +18,7 @@ public class GeneratorEmpty {
                 }
             }
         }
-
+        board[18][18] = Field.GOAL;
         return board;
     }
 }

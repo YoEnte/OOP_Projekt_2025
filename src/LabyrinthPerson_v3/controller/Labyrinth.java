@@ -33,7 +33,6 @@ public class Labyrinth {
                 Dimension fieldDimensions = new Dimension(25, 25);
                 // Create and register graphical view.
                 GameState gameState = new GameState(0, board, new Player(1,2));
-                System.out.println();
 
 
 
