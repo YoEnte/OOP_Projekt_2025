@@ -2,9 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import model.generators.Generator;
-import model.generators.GeneratorEmpty;
-import model.generators.TestMaze;
+import model.generators.*;
 import view.View;
 
 /**
@@ -20,7 +18,8 @@ public class Board {
 	private int height;
 
 	private Field[][] board;
-
+	private Coordinates start;
+	private Coordinates[] goals;
 
 	/**
 	 * Creates a new world with the given size.t
@@ -30,8 +29,10 @@ public class Board {
 		this.width = width;
 		this.height = height;
 
-		// add 2 for walls around maze
-		this.board = TestMaze.generate();
+		Board newBoard = TestMaze.generate();
+		this.board = newBoard.board;
+		this.start = newBoard.start;
+		this.goals = newBoard.goals;
 	}
 
 	public Board(Board other) {
@@ -39,10 +40,24 @@ public class Board {
 		this.height = other.height;
 		this.board = other.board.clone();
 	}
+
 	public Board(Field[][] fields, int width, int height) {
-		this.board = fields;
+		this.board = fields.clone();
 		this.width = width;
 		this.height = height;
+	}
+
+	public Board(Field[][] fields, int width, int height, Coordinates start, Coordinates[] goals) {
+		this.board = fields.clone();
+		this.width = width;
+		this.height = height;
+		this.start = new Coordinates(start);
+		this.goals = new Coordinates[goals.length];
+		int i = 0;
+		for (Coordinates g : goals) {
+			this.goals[i] = new Coordinates(g);
+			i++;
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////

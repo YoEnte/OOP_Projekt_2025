@@ -1,9 +1,11 @@
 package model.generators;
 
+import model.Coordinates;
 import model.Field;
+import model.Board;
 
 public class TestMaze {
-    public static Field[][] generate(){
+    public static Board generate(){
         Field[][] board = new Field[20][20];
 
         String[] maze = {
@@ -40,6 +42,7 @@ public class TestMaze {
                 }
             }
         }
-        return board;
+
+        return new Board(board, 20, 20, new Coordinates(1, 2), new Coordinates[]{new Coordinates(18, 18)});
     }
 }

@@ -12,6 +12,9 @@ public class ConsoleView implements View {
 
 	@Override
 	public void update(GameState gameState) {
+
+		System.out.flush();
+
 		// The player's position
 		int playerX = gameState.getPlayer().getPositionX();
 		int playerY = gameState.getPlayer().getPositionY();

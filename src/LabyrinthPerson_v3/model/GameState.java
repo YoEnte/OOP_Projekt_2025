@@ -66,8 +66,6 @@ public class GameState {
                 this.listOfEnemies.add(new EasyEnemy((EasyEnemy) e));
             } else if (e.getClass() == NormalEnemy.class) {
                 this.listOfEnemies.add(new NormalEnemy((NormalEnemy) e));
-            } else if (e.getClass() == HardEnemy.class) {
-                this.listOfEnemies.add(new HardEnemy((HardEnemy) e));
             }
         }
     }
@@ -77,20 +75,13 @@ public class GameState {
     }
 
     private void createEnemies(GameState gameState, Difficulty difficulty) {
-        int enemyCount;
-        switch (difficulty) {
-            case EASY:
-                enemyCount = 3;
-                break;
-            case MEDIUM:
-                enemyCount = 6;
-                break;
-            case HARD:
-                enemyCount = 9;
-                break;
-            default:
-                enemyCount = 3;
-        }
+        int enemyCount = 3;
+        int hardCount = switch (difficulty) {
+            case EASY -> 1;
+            case MEDIUM -> 2;
+            case HARD -> 3;
+            default -> 0;
+        };
 
         boolean isValid = false;
         for(int i = 0; i < enemyCount; i++){
@@ -99,7 +90,11 @@ public class GameState {
                     int x = random.nextInt(gameState.board.getWidth()-1)+1;
                     int y = random.nextInt(gameState.board.getHeight()-1)+1;
                     isValidToSpawn(gameState, x, y );
-                    listOfEnemies.add(new EasyEnemy(x, y));
+                    if (i < hardCount) {
+                        listOfEnemies.add(new NormalEnemy(x, y));
+                    } else {
+                        listOfEnemies.add(new EasyEnemy(x, y));
+                    }
                     isValid = true;
 
                 } catch (InvalidSpawnException e){
@@ -175,10 +170,6 @@ public class GameState {
             TimeUnit.MILLISECONDS.sleep(100);
             moveEnemies();
             updateViews();
-
-
-
-
             if(GameRuleLogic.playerInGoal(this, this.player.getPositionX(), this.player.getPositionY())){
                 this.gameEnd = true;
                 deleteAllWalls();
@@ -186,24 +177,11 @@ public class GameState {
                 closeWindow = true;
                 updateViews();
 
-                Labyrinth.main(new String[0]);
-            }
-
-            if(GameRuleLogic.enemyCatchedPlayer(this)){
-                this.gameEnd = true;
-                deleteAllWalls();
-                deleteAllEnemies();
-                closeWindow = true;
-                updateViews();
 
                 Labyrinth.main(new String[0]);
             }
 
             History.addGameState(new GameState(this));
-
-
-
-
 
         } catch (InvalidMoveException e){
             System.out.println(e.getMessage());
@@ -215,6 +193,8 @@ public class GameState {
         for (Enemy enemy : listOfEnemies){
             if(enemy.getClass() == EasyEnemy.class){
                 ((EasyEnemy)enemy).performMove(this);
+            } else if(enemy.getClass() == NormalEnemy.class){
+                ((NormalEnemy)enemy).performMove(this);
             }
         }
     }
@@ -225,7 +205,7 @@ public class GameState {
             board = board.setFieldOnBoard(this.board, c, Field.PATH);
             updateViews();
             try {
-                TimeUnit.MILLISECONDS.sleep(15);
+                TimeUnit.MILLISECONDS.sleep(25);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -263,8 +243,6 @@ public class GameState {
                     this.listOfEnemies.add(new EasyEnemy((EasyEnemy) e));
                 } else if (e.getClass() == NormalEnemy.class) {
                     this.listOfEnemies.add(new NormalEnemy((NormalEnemy) e));
-                } else if (e.getClass() == HardEnemy.class) {
-                    this.listOfEnemies.add(new HardEnemy((HardEnemy) e));
                 }
             }
 
