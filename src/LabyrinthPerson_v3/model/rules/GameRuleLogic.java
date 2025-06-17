@@ -95,6 +95,21 @@ public class GameRuleLogic {
         return validDirections;
     }
 
+    public static boolean enemyCatchedPlayer(GameState gameState){
+
+        ArrayList<Enemy> enemies = gameState.getListOfEnemies();
+        int playerX = gameState.getPlayer().getPositionX();
+        int playerY = gameState.getPlayer().getPositionY();
+
+        for(Enemy e : enemies){
+            if(e.getPositionX() == playerX && e.getPositionY() == playerY){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean playerInGoal(GameState gameState, int x, int y) {
         return (gameState.getBoard().getFieldList())[y][x] == Field.GOAL;
     }

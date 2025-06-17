@@ -83,6 +83,7 @@ public class GraphicView extends JPanel implements View {
 		g.setColor(new Color(255, 0, 255));
 		g.fillRect(player.x, player.y, player.width, player.height);
 
+		// Paint enemies
 		g.setColor(new Color(255, 100, 0));
 		for (Rectangle r : enemies) {
 			g.fillRect(r.x, r.y, r.width, r.height);

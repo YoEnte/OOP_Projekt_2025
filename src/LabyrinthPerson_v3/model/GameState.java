@@ -119,9 +119,6 @@ public class GameState {
         return board;
     }
 
-    public ArrayList<Enemy> getEnemies() {
-        return listOfEnemies;
-    }
 
 
 
@@ -178,6 +175,10 @@ public class GameState {
             TimeUnit.MILLISECONDS.sleep(100);
             moveEnemies();
             updateViews();
+
+
+
+
             if(GameRuleLogic.playerInGoal(this, this.player.getPositionX(), this.player.getPositionY())){
                 this.gameEnd = true;
                 deleteAllWalls();
@@ -185,11 +186,24 @@ public class GameState {
                 closeWindow = true;
                 updateViews();
 
+                Labyrinth.main(new String[0]);
+            }
 
-                Labyrinth.main();
+            if(GameRuleLogic.enemyCatchedPlayer(this)){
+                this.gameEnd = true;
+                deleteAllWalls();
+                deleteAllEnemies();
+                closeWindow = true;
+                updateViews();
+
+                Labyrinth.main(new String[0]);
             }
 
             History.addGameState(new GameState(this));
+
+
+
+
 
         } catch (InvalidMoveException e){
             System.out.println(e.getMessage());
@@ -200,7 +214,7 @@ public class GameState {
     public void moveEnemies() {
         for (Enemy enemy : listOfEnemies){
             if(enemy.getClass() == EasyEnemy.class){
-                ((EasyEnemy)enemy).performMove(this, (EasyEnemy)enemy);
+                ((EasyEnemy)enemy).performMove(this);
             }
         }
     }
@@ -211,7 +225,7 @@ public class GameState {
             board = board.setFieldOnBoard(this.board, c, Field.PATH);
             updateViews();
             try {
-                TimeUnit.MILLISECONDS.sleep(25);
+                TimeUnit.MILLISECONDS.sleep(15);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
