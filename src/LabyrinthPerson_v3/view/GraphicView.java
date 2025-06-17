@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import model.GameState;
 import model.enemyPackage.Enemy;
@@ -15,6 +15,7 @@ import model.enemyPackage.Enemy;
  * A graphical view of the world.
  */
 public class GraphicView extends JPanel implements View {
+	private JFrame frame;
 
 	/** The view's width. */
 	private final int SCREEN_WIDTH;

@@ -1,6 +1,8 @@
 package model;
 
 
+import controller.Controller;
+import controller.Labyrinth;
 import model.enemyPackage.*;
 import model.rules.GameRuleLogic;
 import model.rules.InvalidMoveException;
@@ -22,17 +24,20 @@ public class GameState {
     private Player player;
     private ArrayList<Enemy> listOfEnemies = new ArrayList<>();
     private boolean gameEnd;
+    private Difficulty difficulty;
+    private boolean closeWindow = false;
 
     /** Set of views registered to be notified of world updates. */
     private final ArrayList<View> views = new ArrayList<>();
 
-    public GameState(int turn, Board board, Player player){
+    public GameState(int turn, Board board, Player player, Difficulty difficulty){
         this.turn = turn;
         this.board = board;
         this.player = player;
         this.gameEnd = false;
+        this.difficulty = difficulty;
 
-        this.createEnemies(this,3);
+        this.createEnemies(this,difficulty);
 
         if (turn == 0) {
             History.addGameState(new GameState(this));
@@ -71,10 +76,24 @@ public class GameState {
         return listOfEnemies;
     }
 
-    public void createEnemies(GameState gameState, int count){
+    private void createEnemies(GameState gameState, Difficulty difficulty) {
+        int enemyCount;
+        switch (difficulty) {
+            case EASY:
+                enemyCount = 3;
+                break;
+            case MEDIUM:
+                enemyCount = 6;
+                break;
+            case HARD:
+                enemyCount = 9;
+                break;
+            default:
+                enemyCount = 3;
+        }
 
         boolean isValid = false;
-        for(int i = 0; i < count; i++){
+        for(int i = 0; i < enemyCount; i++){
             while (!isValid){
                 try {
                     int x = random.nextInt(gameState.board.getWidth()-1)+1;
@@ -89,7 +108,6 @@ public class GameState {
             }
             isValid = false;
         }
-
     }
 
     public Player getPlayer() {
@@ -162,8 +180,13 @@ public class GameState {
             updateViews();
             if(GameRuleLogic.playerInGoal(this, this.player.getPositionX(), this.player.getPositionY())){
                 this.gameEnd = true;
-                vanishWalls();
+                deleteAllWalls();
+                deleteAllEnemies();
+                closeWindow = true;
                 updateViews();
+
+
+                Labyrinth.main();
             }
 
             History.addGameState(new GameState(this));
@@ -173,9 +196,6 @@ public class GameState {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(player.getPositionX());
-        System.out.println(player.getPositionY());
-
     }
     public void moveEnemies() {
         for (Enemy enemy : listOfEnemies){
@@ -185,13 +205,25 @@ public class GameState {
         }
     }
 
-    public void vanishWalls(){
+    public void deleteAllWalls(){
         ArrayList<Coordinates> wallIndexArr = board.getIndexForFieldType(Field.WALL);
         for(Coordinates c : wallIndexArr){
             board = board.setFieldOnBoard(this.board, c, Field.PATH);
             updateViews();
             try {
                 TimeUnit.MILLISECONDS.sleep(25);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    
+    public  void deleteAllEnemies(){
+        for(int i = 0; i < listOfEnemies.size();){
+            this.listOfEnemies.removeLast();
+            updateViews();
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -250,6 +282,10 @@ public class GameState {
         for (int i = 0; i < views.size(); i++) {
             views.get(i).update(this);
         }
+    }
+
+    public boolean isGameEnded() {
+        return closeWindow;
     }
 
 }
