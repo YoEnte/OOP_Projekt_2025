@@ -21,7 +21,7 @@ import view.MenuScreen;
 public class Labyrinth {
 
 
-    public static void main() {
+    public static void main(String[] args) {
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {

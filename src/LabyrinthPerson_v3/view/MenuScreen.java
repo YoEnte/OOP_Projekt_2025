@@ -6,15 +6,18 @@ import javax.swing.*;
 public class MenuScreen {
     public static Difficulty showMenu() {
         Object[] options = {
-                "Einfach (wenige Gegner)",
+                "Easy",
                 "Mittel (mehr Gegner)",
-                "Schwer (viele Gegner)"
+                "Schwer (viele Gegner)",
+                "EasterEgg"
         };
+
+
 
         int choice = JOptionPane.showOptionDialog(
                 null,
-                "Wähle die Schwierigkeitsstufe:",
-                "Labyrinth - Schwierigkeit",
+                "Choose the difficulty: ",
+                "Labyrinth - Difficulty",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,

@@ -21,11 +21,11 @@ public class EasyEnemy extends Enemy {
     }
 
     //TODO Fix invalid moves
-    public void performMove(GameState gameState, EasyEnemy enemy){
-        ArrayList<Direction> possibleDirections = GameRuleLogic.getPossibleMoves(gameState, enemy.getPositionX(), enemy.getPositionY());
+    public void performMove(GameState gameState){
+        ArrayList<Direction> possibleDirections = GameRuleLogic.getPossibleMoves(gameState, this.getPositionX(), this.getPositionY());
         int randomIndex = random.nextInt(possibleDirections.size());
 
-        enemy.setX(enemy.getPositionX() + possibleDirections.get(randomIndex).deltaX);
-        enemy.setY(enemy.getPositionY() + possibleDirections.get(randomIndex).deltaY);
+        this.setX(this.getPositionX() + possibleDirections.get(randomIndex).deltaX);
+        this.setY(this.getPositionY() + possibleDirections.get(randomIndex).deltaY);
     }
 }
