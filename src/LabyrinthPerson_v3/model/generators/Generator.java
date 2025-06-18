@@ -1,8 +1,8 @@
 package model.generators;
 
-import model.Board;
+import model.Field;
 
 public abstract class Generator {
 
-    public abstract Board generate(int width, int height);
+    public abstract Field[][] generate(int width, int height);
 }
