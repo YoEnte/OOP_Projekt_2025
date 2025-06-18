@@ -4,7 +4,7 @@ import model.Coordinates;
 import model.Field;
 import model.Board;
 
-public class TestMaze {
+public class MainMaze {
     public static Board generate(){
         Field[][] board = new Field[20][20];
 

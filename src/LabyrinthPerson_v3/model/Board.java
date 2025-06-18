@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 import model.generators.*;
-import view.View;
 
 /**
  * The world is our model. It saves the bare minimum of information required to
@@ -29,7 +28,7 @@ public class Board {
 		this.width = width;
 		this.height = height;
 
-		Board newBoard = TestMaze.generate();
+		Board newBoard = MainMaze.generate();
 		this.board = newBoard.board;
 		this.start = newBoard.start;
 		this.goals = newBoard.goals;

@@ -27,7 +27,7 @@ public class Labyrinth {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-
+                Difficulty difficulty = MenuScreen.showMenu();
 
                 // Dimension of the game board (10x10).
                 // add 2 for wall around
@@ -39,7 +39,7 @@ public class Labyrinth {
                 // Size of a field in the graphical view.
                 Dimension fieldDimensions = new Dimension(35, 35);
 
-                Difficulty difficulty = MenuScreen.showMenu();
+
 
                 // Create and register graphical view.
                 GameState gameState = new GameState(0, board, new Player(1,2), difficulty);
@@ -53,15 +53,12 @@ public class Labyrinth {
                 gameState.registerView(gview);
                 gview.setVisible(true);
 
-
-
-
-
-
                 // Create and register console view.
                 ConsoleView cview = new ConsoleView();
                 gameState.registerView(cview);
 
+
+                // Buttons for the GUI
                 JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
                 buttonPanel.setBackground(new Color(240, 240, 240));
 
