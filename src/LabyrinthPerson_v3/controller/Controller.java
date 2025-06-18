@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import model.Direction;
 import model.Board;
@@ -19,26 +19,53 @@ import view.View;
  */
 public class Controller extends JFrame implements KeyListener, ActionListener, MouseListener {
 
+
 	/** The world that is updated upon every key press. */
 	private GameState gameState;
 	private List<View> views;
 
 	/**
 	 * Creates a new instance.
-	 * 
-	 * @param board the world to be updated whenever the player should move.
-	 * @param caged the {@link GraphicsProgram} we want to listen for key presses
-	 *              on.
+	 *
+	 * @param gameState the world to be updated whenever the player should move.
+	 * @param buttons the user can perform a couple of actions
 	 */
-	public Controller(GameState gameState) {
+	public Controller(GameState gameState, JButton[] buttons) {
 		// Remember the world
 		this.gameState = gameState;
-		
+
 		// Listen for key events
 		addKeyListener(this);
         // Listen for mouse events.
 		// Not used in the current implementation.
 		addMouseListener(this);
+
+
+		// Listen for the button inputs
+		int i = 0;
+		for (JButton b : buttons) {
+			System.out.println(b);
+			int finalI = i;
+			b.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (finalI == 0) {
+						gameState.stepGameState(-1);
+						requestFocusInWindow();
+					}
+					if (finalI == 1) {
+						gameState.stepGameState(1);
+						requestFocusInWindow();
+					}
+					if (finalI == 2) {
+						dispose();
+						Labyrinth.main(new String[0]);
+					}
+				}
+			});
+
+			i++;
+		}
 	}
 
 	@Override
@@ -91,10 +118,12 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 		}
 	}
 
-
+	public void buttonPressed() {
+		this.getContentPane().getFocusTraversalPolicy();
+	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+
 	}
 
 	/////////////////// Action Events ////////////////////////////////
@@ -102,39 +131,39 @@ public class Controller extends JFrame implements KeyListener, ActionListener, M
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/////////////////// Mouse Events ////////////////////////////////
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

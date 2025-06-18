@@ -1,13 +1,11 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controller.Controller;
 import model.GameState;
 import model.enemyPackage.Enemy;
 
@@ -49,6 +47,20 @@ public class GraphicView extends JPanel implements View {
 				boardColor[y][x] = new Color(0, 0, 0);
 			}
 		}
+
+//		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+//		buttonPanel.setBackground(new Color(240, 240, 240));
+//
+//		JButton backButton = new JButton("← Zurück");
+//		JButton forwardButton = new JButton("Vor →");
+//		JButton restartButton = new JButton("↺ Neustart");
+//
+//		buttonPanel.add(backButton);
+//		buttonPanel.add(forwardButton);
+//		buttonPanel.add(restartButton);
+
+
+
 	}
 
 	/** The background rectangle. */
@@ -140,6 +152,10 @@ public class GraphicView extends JPanel implements View {
 
 		repaint();
 		paintImmediately(0, 0, getWidth(), getHeight());
+	}
+
+	public void addButtons(Controller c){
+
 	}
 
 }
