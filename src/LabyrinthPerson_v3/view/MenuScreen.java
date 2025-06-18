@@ -33,7 +33,7 @@ public class MenuScreen {
             case 0 -> Difficulty.EASY;
             case 1 -> Difficulty.MEDIUM;
             case 2 -> Difficulty.HARD;
-            default -> Difficulty.EASY;
+            default -> Difficulty.SECRET;
         };
     }
 }

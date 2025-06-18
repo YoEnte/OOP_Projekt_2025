@@ -29,7 +29,24 @@ public class Board {
 		this.width = width;
 		this.height = height;
 
-		Board newBoard = TestMaze.generate();
+		Board newBoard = GeneratorFromImage.generate(29, 29, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
+		this.board = newBoard.board;
+		this.start = newBoard.start;
+		this.goals = newBoard.goals;
+	}
+
+	public Board(int width, int height, Difficulty difficulty) {
+		// TODO -> check for values??? Normally, we would check the arguments for proper values
+		this.width = width;
+		this.height = height;
+
+		Board newBoard;
+		if (difficulty == Difficulty.SECRET) {
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
+		} else {
+			newBoard = TestMaze.generate();
+		}
+
 		this.board = newBoard.board;
 		this.start = newBoard.start;
 		this.goals = newBoard.goals;

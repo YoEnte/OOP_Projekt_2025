@@ -1,5 +1,7 @@
 package model.generators;
 
+import model.Board;
+import model.Coordinates;
 import model.Field;
 
 import java.awt.*;
@@ -12,7 +14,7 @@ public class GeneratorFromImage {
 
     private static GeneratorFromImage generatorFromImage;
 
-    public static Field[][] generate(int width, int height, String sourcePath) {
+    public static Board generate(int width, int height, String sourcePath) {
 
         Field[][] board = new Field[height][width];
         BufferedImage image = null;
@@ -35,7 +37,7 @@ public class GeneratorFromImage {
             System.out.println("Error " + e);
         }
 
-        return board;
+        return new Board(board, width, height, new Coordinates(7, 0), new Coordinates[]{new Coordinates(21, 28)});
     }
 
     private static Field getField(int p) {
