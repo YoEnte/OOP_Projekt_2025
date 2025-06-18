@@ -1,5 +1,7 @@
 package model.generators;
 
+import model.Board;
+import model.Coordinates;
 import model.Field;
 
 import java.awt.*;

@@ -18,8 +18,6 @@ public class Board {
 	private int height;
 
 	private Field[][] board;
-	private Coordinates start;
-	private Coordinates[] goals;
 
 	/**
 	 * Creates a new world with the given size.t
@@ -29,10 +27,22 @@ public class Board {
 		this.width = width;
 		this.height = height;
 
-		Board newBoard = TestMaze.generate();
-		this.board = newBoard.board;
-		this.start = newBoard.start;
-		this.goals = newBoard.goals;
+        this.board = GeneratorFromImage.generate(29, 29, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
+	}
+
+	public Board(int width, int height, Difficulty difficulty) {
+		// TODO -> check for values??? Normally, we would check the arguments for proper values
+		this.width = width;
+		this.height = height;
+
+		Field[][] newBoard;
+		if (difficulty == Difficulty.SECRET) {
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
+		} else {
+			newBoard = TestMaze.generate();
+		}
+
+		this.board = newBoard;
 	}
 
 	public Board(Board other) {
@@ -45,19 +55,6 @@ public class Board {
 		this.board = fields.clone();
 		this.width = width;
 		this.height = height;
-	}
-
-	public Board(Field[][] fields, int width, int height, Coordinates start, Coordinates[] goals) {
-		this.board = fields.clone();
-		this.width = width;
-		this.height = height;
-		this.start = new Coordinates(start);
-		this.goals = new Coordinates[goals.length];
-		int i = 0;
-		for (Coordinates g : goals) {
-			this.goals[i] = new Coordinates(g);
-			i++;
-		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////

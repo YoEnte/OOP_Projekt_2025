@@ -6,7 +6,7 @@ import model.Board;
 
 public class GeneratorEmpty {
 
-    public static Board generate(int width, int height) {
+    public static Field[][] generate(int width, int height) {
 
         Field[][] board = new Field[height][width];
 
@@ -23,6 +23,6 @@ public class GeneratorEmpty {
         board[18][18] = Field.GOAL;
         board[1][1] = Field.START;
 
-        return new Board(board, width, height, new Coordinates(1, 1), new Coordinates[]{new Coordinates(18, 18)});
+        return board;
     }
 }

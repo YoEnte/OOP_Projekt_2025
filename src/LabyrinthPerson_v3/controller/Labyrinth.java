@@ -1,14 +1,11 @@
 package controller;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
-import model.Board;
-import model.GameState;
-import model.Player;
+import model.*;
 import view.ConsoleView;
 import view.GraphicView;
 
@@ -29,22 +26,26 @@ public class Labyrinth {
 
 
 
-                // Dimension of the game board (10x10).
-                // add 2 for wall around
+                Difficulty difficulty = MenuScreen.showMenu();
+                System.out.println(difficulty);
+
                 int width = 18 + 2;
                 int height = 18 + 2;
+                if (difficulty == Difficulty.SECRET) {
+                    width = 29;
+                    height = 29;
+                }
+
                 // Create a new game world.
-                Board board = new Board(width, height);
+                Board board = new Board(width, height, difficulty);
 
                 // Size of a field in the graphical view.
                 Dimension fieldDimensions = new Dimension(35, 35);
 
-                Difficulty difficulty = MenuScreen.showMenu();
-
                 // Create and register graphical view.
-                GameState gameState = new GameState(0, board, new Player(1,2), difficulty);
-
-
+                ArrayList<Coordinates> starts = board.getIndexForFieldType(Field.START);
+                Player player = new Player(starts.get(0).getXCoordinate(),starts.get(0).getYCoordinate());
+                GameState gameState = new GameState(0, board, player, difficulty);
 
                 GraphicView gview = new GraphicView(
                         width * fieldDimensions.width,
@@ -77,7 +78,7 @@ public class Labyrinth {
 
                 // Create controller and initialize JFrame.
                 Controller controller = new Controller(gameState, new JButton[]{backButton, forwardButton, restartButton});
-                controller.setTitle("Square Move Practice");
+                controller.setTitle("Labyrinth - Game");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
