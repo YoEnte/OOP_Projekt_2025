@@ -9,7 +9,7 @@ public class MenuScreen {
                 "Easy",
                 "Mittel (mehr Gegner)",
                 "Schwer (viele Gegner)",
-                "EasterEgg"
+                "Fun"
         };
 
 
