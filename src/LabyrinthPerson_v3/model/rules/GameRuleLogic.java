@@ -26,9 +26,9 @@ public class GameRuleLogic {
 
             if(!gameState.getListOfEnemies().isEmpty()){
                 for(Enemy e : gameState.getListOfEnemies()){
-                    if(e.getPositionX() == playerX && e.getPositionY() == playerY){
-                        throw new InvalidMoveException("There is an Enemy");
-                    }
+//                    if(e.getPositionX() == playerX && e.getPositionY() == playerY){
+//                        throw new InvalidMoveException("There is an Enemy");
+//                    }
                 }
             }
             if((gameState.getBoard().getFieldList())[playerY][playerX] ==  Field.WALL){

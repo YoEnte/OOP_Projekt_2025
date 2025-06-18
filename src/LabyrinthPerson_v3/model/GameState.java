@@ -151,33 +151,29 @@ public class GameState {
         History.removeGameStatesUntil(turn);
 
         try {
-            //(this.player.getPositionX());
-            //(this.player.getPositionY());
             GameRuleLogic.isValidToMove(this, direction, player.getPositionX(), player.getPositionY());
-            // The direction tells us exactly how much we need to move along
-            // every direction
-
-
             player.setPlayerX(player.getPositionX() + direction.deltaX);
             player.setPlayerY(player.getPositionY() + direction.deltaY);
-            //(this.player.getPositionX());
-            //(this.player.getPositionY());
-
             turn++;
 
-            //updateViews();
+            updateViews();
+
+            if(GameRuleLogic.playerInGoal(this, this.player.getPositionX(), this.player.getPositionY())){
+                deleteBoard();
+                Labyrinth.main(new String[0]);
+
+            }
+            if(GameRuleLogic.enemyCatchedPlayer(this)){
+                deleteBoard();
+                Labyrinth.main(new String[0]);
+            }
 
             TimeUnit.MILLISECONDS.sleep(100);
             moveEnemies();
             updateViews();
-            if(GameRuleLogic.playerInGoal(this, this.player.getPositionX(), this.player.getPositionY())){
-                this.gameEnd = true;
-                deleteAllWalls();
-                deleteAllEnemies();
-                closeWindow = true;
-                updateViews();
 
-
+            if(GameRuleLogic.enemyCatchedPlayer(this)){
+                deleteBoard();
                 Labyrinth.main(new String[0]);
             }
 
@@ -205,14 +201,14 @@ public class GameState {
             board = board.setFieldOnBoard(this.board, c, Field.PATH);
             updateViews();
             try {
-                TimeUnit.MILLISECONDS.sleep(25);
+                TimeUnit.MILLISECONDS.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
     }
     
-    public  void deleteAllEnemies(){
+    public void deleteAllEnemies(){
         for(int i = 0; i < listOfEnemies.size();){
             this.listOfEnemies.removeLast();
             updateViews();
@@ -223,6 +219,46 @@ public class GameState {
             }
         }
     }
+    public void deleteBoard(){
+        this.gameEnd = true;
+        player.setPlayerX(-1);
+        player.setPlayerY(-1);
+
+        deleteAllWalls();
+        deleteAllEnemies();
+        deleteAllSGElements();
+        closeWindow = true;
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        updateViews();
+    }
+    public void deleteAllSGElements(){
+        ArrayList<Coordinates> startIndexArr = board.getIndexForFieldType(Field.START);
+        for(Coordinates c : startIndexArr){
+            board = board.setFieldOnBoard(this.board, c, Field.PATH);
+            updateViews();
+            try {
+                TimeUnit.MILLISECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        ArrayList<Coordinates> goalIndexArr = board.getIndexForFieldType(Field.GOAL);
+        for(Coordinates c : goalIndexArr){
+            board = board.setFieldOnBoard(this.board, c, Field.PATH);
+            updateViews();
+            try {
+                TimeUnit.MILLISECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
 
     ///////////////////////////////////////////////////////////////////////////

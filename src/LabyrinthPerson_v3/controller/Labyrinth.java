@@ -1,9 +1,10 @@
 package controller;
 
-import java.awt.Dimension;
-import java.awt.Insets;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import model.Board;
 import model.GameState;
@@ -36,7 +37,7 @@ public class Labyrinth {
                 Board board = new Board(width, height);
 
                 // Size of a field in the graphical view.
-                Dimension fieldDimensions = new Dimension(25, 25);
+                Dimension fieldDimensions = new Dimension(35, 35);
 
                 Difficulty difficulty = MenuScreen.showMenu();
 
@@ -61,12 +62,30 @@ public class Labyrinth {
                 ConsoleView cview = new ConsoleView();
                 gameState.registerView(cview);
 
+                JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                buttonPanel.setBackground(new Color(240, 240, 240));
+
+                JButton backButton = new JButton("← Zurück");
+                JButton forwardButton = new JButton("Vor →");
+                JButton restartButton = new JButton("↺ Menü");
+
+                buttonPanel.add(backButton);
+                buttonPanel.add(forwardButton);
+                buttonPanel.add(restartButton);
+
+                buttonPanel.setPreferredSize(new Dimension(width * fieldDimensions.width, 50));
+
                 // Create controller and initialize JFrame.
-                Controller controller = new Controller(gameState);
+                Controller controller = new Controller(gameState, new JButton[]{backButton, forwardButton, restartButton});
                 controller.setTitle("Square Move Practice");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                controller.getContentPane().add(gview);
+
+                controller.getContentPane().add(gview, BorderLayout.CENTER);
+
+                // Button-Panel unten hinzufügen
+                controller.getContentPane().add(buttonPanel, BorderLayout.AFTER_LAST_LINE);
+
                 // pack() is needed before JFrame size can be calculated.
                 controller.pack();
 
@@ -75,11 +94,15 @@ public class Labyrinth {
                 Insets insets = controller.getInsets();
 
                 int windowX = width * fieldDimensions.width + insets.left + insets.right;
-                int windowY = height * fieldDimensions.height + insets.bottom + insets.top;
+                int windowY = height * fieldDimensions.height + insets.bottom + insets.top + 50;
                 Dimension size = new Dimension(windowX, windowY);
                 controller.setSize(size);
                 controller.setMinimumSize(size);
                 controller.setVisible(true);
+
+                controller.requestFocusInWindow();
+
+
             }
         });
     }
