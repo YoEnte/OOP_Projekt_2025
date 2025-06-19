@@ -59,7 +59,7 @@ public class GeneratorFromImage {
      * Bestimmt das Feld (Field) anhand eines Farbwertes (RGB) aus dem Bild.
      *
      * @param p Der Farbwert eines Pixels (als int).
-     * @return Das zugehörige Field (z. B. WALL, PATH, START, GOAL).
+     * @return Das zugehörige Field (z.B. WALL, PATH, START, GOAL).
      */
     private static Field getField(int p) {
         // Extrahiere Rot-, Grün- und Blauanteil des Pixels
