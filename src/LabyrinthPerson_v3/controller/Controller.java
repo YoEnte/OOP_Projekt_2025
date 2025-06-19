@@ -1,4 +1,5 @@
 package controller;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,155 +16,185 @@ import model.GameState;
 import view.View;
 
 /**
- * Our controller listens for key events on the main window.
+ * Der Controller ist Teil des MVC-Musters und fungiert als Vermittler zwischen Benutzerinteraktionen (Tastatur, Buttons)
+ * und dem Spielmodell (GameState). Er verarbeitet Tasteneingaben, Mausereignisse und Button-Klicks.
+ * Diese Klasse erweitert JFrame, sodass sie direkt als Hauptfenster des Spiels verwendet werden kann.
  */
 public class Controller extends JFrame implements KeyListener, ActionListener, MouseListener {
 
-
-	/** The world that is updated upon every key press. */
+	/** Der aktuelle Zustand des Spiels, der bei Benutzereingaben aktualisiert wird. */
 	private GameState gameState;
+
+	/** Liste registrierter Views. Wird aktuell nicht verwendet, aber vorgesehen. */
 	private List<View> views;
 
 	/**
-	 * Creates a new instance.
+	 * Konstruktor des Controllers. Initialisiert Event-Listener für Tastatur, Maus und Buttons.
 	 *
-	 * @param gameState the world to be updated whenever the player should move.
-	 * @param buttons the user can perform a couple of actions
+	 * @param gameState Der aktuelle Spielzustand, der bei Eingaben verändert wird.
+	 * @param buttons   Ein Array von Buttons, über die der Benutzer Aktionen ausführen kann.
 	 */
 	public Controller(GameState gameState, JButton[] buttons) {
-		// Remember the world
+		// Speichert den Spielzustand
 		this.gameState = gameState;
 
-		// Listen for key events
+		// Registriert den KeyListener, um Tastatureingaben zu verarbeiten.
 		addKeyListener(this);
-        // Listen for mouse events.
-		// Not used in the current implementation.
+
+		// Registriert MouseListener (derzeit nicht genutzt).
 		addMouseListener(this);
 
-
-		// Listen for the button inputs
+		// Fügt jedem übergebenen Button eine ActionListener-Logik hinzu.
 		int i = 0;
 		for (JButton b : buttons) {
-			System.out.println(b);
 			int finalI = i;
+
 			b.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					// Rückwärts-Schritt
 					if (finalI == 0) {
 						gameState.stepGameState(-1);
 						requestFocusInWindow();
 					}
+					// Vorwärts-Schritt
 					if (finalI == 1) {
 						gameState.stepGameState(1);
 						requestFocusInWindow();
 					}
+					// Neustart: Fenster schließen und Main erneut aufrufen
 					if (finalI == 2) {
-						dispose();
-						Labyrinth.main(new String[0]);
+						dispose(); // Aktuelles Fenster schließen
+						Labyrinth.main(new String[0]); // Hauptmethode erneut starten
 					}
 				}
 			});
-
 			i++;
 		}
 	}
 
+	/**
+	 * Wird aufgerufen, wenn ein Key getippt wird (nicht verwendet).
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		// Nicht implementiert
 	}
 
 	/////////////////// Key Events ////////////////////////////////
 
+	/**
+	 * Wird aufgerufen, wenn eine Taste gedrückt wird.
+	 * Führt Bewegungen im Spiel oder Schritt-Aktionen aus.
+	 *
+	 * @param e Das KeyEvent-Objekt mit der gedrückten Taste.
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// Check if we need to do something. Tells the world to move the player.
+		// Reagiert auf Pfeiltasten und WASD für Richtungsbewegungen
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP, 87:
-			gameState.movePlayer(Direction.UP);
+			case KeyEvent.VK_UP, 87: // W oder Pfeil nach oben
+				gameState.movePlayer(Direction.UP);
+				if (gameState.isGameEnded()) {
+					this.dispose(); // Spiel beendet → Fenster schließen
+				}
+				break;
 
-			if(gameState.isGameEnded()){
-				this.dispose();
-			}
-            break;
+			case KeyEvent.VK_DOWN, 83: // S oder Pfeil nach unten
+				gameState.movePlayer(Direction.DOWN);
+				if (gameState.isGameEnded()) {
+					this.dispose();
+				}
+				break;
 
-		case KeyEvent.VK_DOWN, 83:
-			gameState.movePlayer(Direction.DOWN);
-			if(gameState.isGameEnded()){
-				this.dispose();
-			}
-			break;
+			case KeyEvent.VK_LEFT, 65: // A oder Pfeil nach links
+				gameState.movePlayer(Direction.LEFT);
+				if (gameState.isGameEnded()) {
+					this.dispose();
+				}
+				break;
 
-		case KeyEvent.VK_LEFT, 65:
-			gameState.movePlayer(Direction.LEFT);
-			if(gameState.isGameEnded()){
-				this.dispose();
-			}
-			break;
+			case KeyEvent.VK_RIGHT, 68: // D oder Pfeil nach rechts
+				gameState.movePlayer(Direction.RIGHT);
+				if (gameState.isGameEnded()) {
+					this.dispose();
+				}
+				break;
 
-		case KeyEvent.VK_RIGHT, 68:
-			gameState.movePlayer(Direction.RIGHT);
-			if(gameState.isGameEnded()){
-				this.dispose();
-			}
-			break;
+			case 79: // Taste 'O' → Schritt zurück
+				gameState.stepGameState(-1);
+				break;
 
-		case 79:
-			gameState.stepGameState(-1);
-			break;
-
-		case 80:
-			gameState.stepGameState(1);
-			break;
+			case 80: // Taste 'P' → Schritt vor
+				gameState.stepGameState(1);
+				break;
 		}
 	}
 
+	/**
+	 * Methode, die potenziell bei Button-Druck helfen könnte (nicht genutzt).
+	 */
 	public void buttonPressed() {
 		this.getContentPane().getFocusTraversalPolicy();
 	}
+
+	/**
+	 * Wird aufgerufen, wenn eine Taste losgelassen wird (nicht verwendet).
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		// Nicht implementiert
 	}
 
 	/////////////////// Action Events ////////////////////////////////
 
+	/**
+	 * Wird aufgerufen, wenn eine allgemeine Aktion ausgelöst wird (nicht verwendet).
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		// Nicht implementiert
 	}
 
 	/////////////////// Mouse Events ////////////////////////////////
 
+	/**
+	 * Wird aufgerufen, wenn eine Maustaste gedrückt und losgelassen wird (nicht verwendet).
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Nicht implementiert
 	}
 
+	/**
+	 * Wird aufgerufen, wenn eine Maustaste gedrückt wird (nicht verwendet).
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Nicht implementiert
 	}
 
+	/**
+	 * Wird aufgerufen, wenn eine Maustaste losgelassen wird (nicht verwendet).
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Nicht implementiert
 	}
 
+	/**
+	 * Wird aufgerufen, wenn die Maus das Fenster betritt (nicht verwendet).
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Nicht implementiert
 	}
 
+	/**
+	 * Wird aufgerufen, wenn die Maus das Fenster verlässt (nicht verwendet).
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// Nicht implementiert
 	}
-
 }

@@ -13,40 +13,53 @@ import model.Difficulty;
 import view.MenuScreen;
 
 /**
- * This is our main program. It is responsible for creating all of the objects
- * that are part of the MVC pattern and connecting them with each other.
+ * Die Hauptklasse des Labyrinth-Spiels.
+ * Sie ist für die Initialisierung der MVC-Komponenten (Model, View, Controller)
+ * und für den Start des Spiels verantwortlich.
  */
 public class Labyrinth {
 
-
+    /**
+     * Die Main-Methode startet das Labyrinth-Spiel.
+     * Sie initialisiert das Spiel basierend auf dem vom Benutzer gewählten Schwierigkeitsgrad.
+     * Die grafische und textbasierte Darstellung (View) sowie der Controller werden eingerichtet.
+     *
+     * @param args Nicht verwendet.
+     */
     public static void main(String[] args) {
 
+        // Startet die GUI-Initialisierung im Event-Dispatch-Thread (Swing-konform).
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-
-
+                // Zeigt das Menü und liest die gewählte Schwierigkeit vom Benutzer.
                 Difficulty difficulty = MenuScreen.showMenu();
                 System.out.println(difficulty);
 
+                // Definiert Standardgröße des Spielfelds (inkl. Rand).
                 int width = 18 + 2;
                 int height = 18 + 2;
+
+                // Anpassung der Größe für den "SECRET"-Schwierigkeitsgrad.
                 if (difficulty == Difficulty.SECRET) {
                     width = 29;
                     height = 29;
                 }
 
-                // Create a new game world.
+                // Erstellt das Spielfeld-Model mit angegebener Größe und Schwierigkeitsgrad.
                 Board board = new Board(width, height, difficulty);
 
-                // Size of a field in the graphical view.
+                // Definiert die Pixelgröße jedes Spielfelds für die grafische Darstellung.
                 Dimension fieldDimensions = new Dimension(35, 35);
 
-                // Create and register graphical view.
+                // Ermittelt Startposition(en) des Spielers.
                 ArrayList<Coordinates> starts = board.getIndexForFieldType(Field.START);
-                Player player = new Player(starts.get(0).getXCoordinate(),starts.get(0).getYCoordinate());
+                Player player = new Player(starts.get(0).getXCoordinate(), starts.get(0).getYCoordinate());
+
+                // Erstellt den Spielzustand mit initialem Punktestand 0.
                 GameState gameState = new GameState(0, board, player, difficulty);
 
+                // Erstellt die grafische Ansicht und registriert sie beim Spielzustand.
                 GraphicView gview = new GraphicView(
                         width * fieldDimensions.width,
                         height * fieldDimensions.height,
@@ -54,56 +67,54 @@ public class Labyrinth {
                 gameState.registerView(gview);
                 gview.setVisible(true);
 
-
-
-
-
-
-                // Create and register console view.
+                // Erstellt und registriert die Konsolenansicht beim Spielzustand.
                 ConsoleView cview = new ConsoleView();
                 gameState.registerView(cview);
 
+                // Erstellt ein Panel für die Steuerungsbuttons am unteren Rand.
                 JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
                 buttonPanel.setBackground(new Color(240, 240, 240));
 
+                // Erstellt Steuerungsbuttons.
                 JButton backButton = new JButton("← Zurück");
                 JButton forwardButton = new JButton("Vor →");
                 JButton restartButton = new JButton("↺ Menü");
 
+                // Fügt Buttons dem Panel hinzu.
                 buttonPanel.add(backButton);
                 buttonPanel.add(forwardButton);
                 buttonPanel.add(restartButton);
 
+                // Setzt die bevorzugte Höhe des Button-Panels.
                 buttonPanel.setPreferredSize(new Dimension(width * fieldDimensions.width, 50));
 
-                // Create controller and initialize JFrame.
+                // Erstellt den Controller und übergibt ihm den Spielzustand und die Buttons.
                 Controller controller = new Controller(gameState, new JButton[]{backButton, forwardButton, restartButton});
                 controller.setTitle("Labyrinth - Game");
                 controller.setResizable(false);
                 controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+                // Fügt die grafische Ansicht zum Hauptfenster hinzu.
                 controller.getContentPane().add(gview, BorderLayout.CENTER);
 
-                // Button-Panel unten hinzufügen
+                // Fügt das Button-Panel unter der grafischen Ansicht hinzu.
                 controller.getContentPane().add(buttonPanel, BorderLayout.AFTER_LAST_LINE);
 
-                // pack() is needed before JFrame size can be calculated.
+                // Berechnet Fenstergröße, bevor das JFrame korrekt angezeigt werden kann.
                 controller.pack();
 
-                // Calculate size of window by size of insets (titlebar + border) and size of
-                // graphical view.
+                // Berechnet endgültige Fenstergröße basierend auf Insets und Feldgröße.
                 Insets insets = controller.getInsets();
-
                 int windowX = width * fieldDimensions.width + insets.left + insets.right;
                 int windowY = height * fieldDimensions.height + insets.bottom + insets.top + 50;
+
                 Dimension size = new Dimension(windowX, windowY);
                 controller.setSize(size);
                 controller.setMinimumSize(size);
                 controller.setVisible(true);
 
+                // Fordert den Fokus auf das Fenster an, um Tastatureingaben zu ermöglichen.
                 controller.requestFocusInWindow();
-
-
             }
         });
     }

@@ -6,80 +6,116 @@ import model.generators.*;
 import view.View;
 
 /**
- * The world is our model. It saves the bare minimum of information required to
- * accurately reflect the state of the game. Note how this does not know
- * anything about graphics.
+ * Die Klasse {@code Board} repräsentiert das Spielfeld (Modell) im MVC-Muster.
+ * Sie enthält alle Informationen über die Spielfeldstruktur und bietet Methoden zur Abfrage und Manipulation des Spielfelds.
+ * Die Klasse weiß nichts über die Darstellung (View) und behandelt keine Benutzerinteraktionen (Controller).
  */
 public class Board {
 
-	/** The world's width. */
+	/** Breite des Spielfelds. */
 	private int width;
-	/** The world's height. */
+
+	/** Höhe des Spielfelds. */
 	private int height;
 
+	/** Zweidimensionales Array, das das Spielfeld mit seinen Feldern speichert. */
 	private Field[][] board;
 
 	/**
-	 * Creates a new world with the given size.t
+	 * Konstruktor für ein Standard-Board.
+	 * Erstellt ein spezielles Labyrinth aus einem Bild (QR-Code).
+	 *
+	 * @param width  Breite des Boards
+	 * @param height Höhe des Boards
 	 */
 	public Board(int width, int height) {
-		// TODO -> check for values??? Normally, we would check the arguments for proper values
+		// TODO: Parameterüberprüfung (z. B. Mindestgröße) könnte sinnvoll sein
 		this.width = width;
 		this.height = height;
 
-        this.board = GeneratorFromImage.generate(29, 29, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
+		// Labyrinth aus einem Bild (QR-Code) generieren
+		this.board = GeneratorFromImage.generate(29, 29, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
 	}
 
+	/**
+	 * Konstruktor mit zusätzlichem Schwierigkeitsgrad-Parameter.
+	 * Wählt je nach Schwierigkeitsgrad zwischen einem Standard-Labyrinth und einem Spezialbild.
+	 *
+	 * @param width      Breite des Boards
+	 * @param height     Höhe des Boards
+	 * @param difficulty Schwierigkeitsgrad (z. B. SECRET → QR-Code)
+	 */
 	public Board(int width, int height, Difficulty difficulty) {
-		// TODO -> check for values??? Normally, we would check the arguments for proper values
 		this.width = width;
 		this.height = height;
 
 		Field[][] newBoard;
 		if (difficulty == Difficulty.SECRET) {
+			// Bei SECRET wird das Labyrinth aus einem Bild generiert
 			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
 		} else {
-			newBoard = TestMaze.generate();
+			// Standard-Generator für reguläre Schwierigkeitsgrade
+			newBoard = MainMaze.generate();
 		}
 
 		this.board = newBoard;
 	}
 
+	/**
+	 * Copy-Konstruktor: Erstellt ein neues Board-Objekt anhand eines bestehenden.
+	 * Die Felder werden allerdings nur flach kopiert (nicht deep copy!).
+	 *
+	 * @param other Das zu kopierende Board.
+	 */
 	public Board(Board other) {
 		this.width = other.width;
 		this.height = other.height;
-		this.board = other.board.clone();
+		this.board = other.board.clone(); // flache Kopie des Arrays
 	}
 
+	/**
+	 * Konstruktor, der ein bereits bestehendes Feld-Array übernimmt.
+	 *
+	 * @param fields Zweidimensionales Array von Feldern
+	 * @param width  Breite
+	 * @param height Höhe
+	 */
 	public Board(Field[][] fields, int width, int height) {
-		this.board = fields.clone();
+		this.board = fields.clone(); // flache Kopie
 		this.width = width;
 		this.height = height;
 	}
 
 	///////////////////////////////////////////////////////////////////////////
-	// Getters and Setters
-
-	//public Field getStart
+	// Getter und Hilfsmethoden
 
 	/**
-	 * Returns the width of the world.
-	 * 
-	 * @return the width of the world.
+	 * Gibt die Breite des Boards zurück.
+	 *
+	 * @return Breite
 	 */
 	public int getWidth() {
 		return width;
 	}
 
 	/**
-	 * Returns the height of the world.
-	 * 
-	 * @return the height of the world.
+	 * Gibt die Höhe des Boards zurück.
+	 *
+	 * @return Höhe
 	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Gibt ein neues Board-Objekt zurück, bei dem ein bestimmtes Feld ersetzt wurde.
+	 * Die Originalinstanz bleibt unverändert (Immutability-Prinzip).
+	 *
+	 * @param board             Ursprüngliches Board
+	 * @param newFieldCoordinates Koordinaten des zu ersetzenden Feldes
+	 * @param newFieldType      Neues Feld, das eingefügt werden soll
+	 * @return Neues Board mit verändertem Feld
+	 */
 	public Board setFieldOnBoard(Board board, Coordinates newFieldCoordinates, Field newFieldType) {
 		Field[][] newField = board.getFieldList();
 		newField[newFieldCoordinates.getYCoordinate()][newFieldCoordinates.getXCoordinate()] = newFieldType;
@@ -87,38 +123,43 @@ public class Board {
 	}
 
 	/**
+	 * Gibt die interne Felddarstellung zurück (das gesamte Spielfeld).
 	 *
+	 * @return 2D-Array von Feldern
 	 */
 	public Field[][] getFieldList() {
 		return board;
 	}
 
+	/**
+	 * Gibt das Feld an einer bestimmten Position zurück.
+	 *
+	 * @param x X-Koordinate
+	 * @param y Y-Koordinate
+	 * @return Das Feld an Position (x, y)
+	 */
 	public Field getField(int x, int y) {
 		return board[y][x];
 	}
 
-	public ArrayList<Coordinates> getIndexForFieldType(Field field){
+	/**
+	 * Sucht im gesamten Spielfeld nach allen Feldern eines bestimmten Typs.
+	 *
+	 * @param field Gesuchter Feldtyp (z.B. START, GOAL)
+	 * @return Liste der Koordinaten, an denen sich dieser Feldtyp befindet
+	 */
+	public ArrayList<Coordinates> getIndexForFieldType(Field field) {
 		ArrayList<Coordinates> indexes = new ArrayList<>();
 
-
-		for(int i = 0; i < width; i++){
-			for (int j = 0; j < height; j++){
-				if(board[j][i] == field){
-					indexes.add(new Coordinates(i,j));
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (board[j][i] == field) {
+					indexes.add(new Coordinates(i, j));
 				}
 			}
 		}
 
 		return indexes;
 	}
-
-
-
-	/**
-	 * Returns the player's x position.
-	 * 
-	 * @return the player's x position.
-	 */
-
 
 }
