@@ -224,7 +224,7 @@ public class GameState {
             board = board.setFieldOnBoard(this.board, c, Field.PATH);
             updateViews();
             try {
-                TimeUnit.MILLISECONDS.sleep(10);
+                TimeUnit.MILLISECONDS.sleep(5);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
