@@ -37,8 +37,8 @@ public class Labyrinth {
                 System.out.println(difficulty);
 
                 // Definiert Standardgröße des Spielfelds (inkl. Rand).
-                int width = 18 + 2;
-                int height = 18 + 2;
+                int width = 20;
+                int height = 19;
 
                 // Anpassung der Größe für den "SECRET"-Schwierigkeitsgrad.
                 if (difficulty == Difficulty.SECRET) {
@@ -76,9 +76,9 @@ public class Labyrinth {
                 buttonPanel.setBackground(new Color(240, 240, 240));
 
                 // Erstellt Steuerungsbuttons.
-                JButton backButton = new JButton("← Zurück");
-                JButton forwardButton = new JButton("Vor →");
-                JButton restartButton = new JButton("↺ Menü");
+                JButton backButton = new JButton("← Back");
+                JButton forwardButton = new JButton("Forward →");
+                JButton restartButton = new JButton("↺ Menu");
 
                 // Fügt Buttons dem Panel hinzu.
                 buttonPanel.add(backButton);

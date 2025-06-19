@@ -10,7 +10,6 @@ public class MainMaze {
 
         String[] maze = {
                 "■■■■■■■■■■■■■■■■■■■■",
-                "■■■■■■■■■■■■■■■■■■■■",
                 "■S    G■        ■  ■",
                 "■■ ■■■■■ ■■■■■■■■ ■■",
                 "■                  ■",
@@ -31,7 +30,7 @@ public class MainMaze {
                 "■■■■■■■■■■■■■■■■■■■■"
         };
 
-        for (int y = 0; y < 20; y++) {
+        for (int y = 0; y < 19; y++) {
             for (int x = 0; x < 20; x++) {
                 char c = maze[y].charAt(x);
                 switch (c) {

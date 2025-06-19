@@ -49,7 +49,7 @@ public class GraphicView extends JPanel implements View {
 		// Initialisierung des Spielfeldes und der Farben
 		this.board = new Rectangle[BOARD_HEIGHT][BOARD_WIDTH];
 		this.boardColor = new Color[BOARD_HEIGHT][BOARD_WIDTH];
-		for (int y = 0; y < SCREEN_WIDTH / fieldDimension.width; y++) {
+		for (int y = 0; y < SCREEN_HEIGHT / fieldDimension.height; y++) {
 			for (int x = 0; x < SCREEN_WIDTH / fieldDimension.width; x++) {
 				board[y][x] = new Rectangle(0, 0);
 				boardColor[y][x] = new Color(0, 0, 0); // Standardfarbe: Schwarz

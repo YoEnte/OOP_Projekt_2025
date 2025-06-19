@@ -30,6 +30,7 @@ public class GameState {
     private boolean gameEnd; // Gibt an, ob das Spiel beendet wurde
     private Difficulty difficulty; // Aktueller Schwierigkeitsgrad
     private boolean closeWindow = false; // Status zum Schließen des Spielfensters
+    private boolean win = false; // Gibt an, ob das Spiel beendet wurde
 
     /** Liste der Views, die bei Änderungen benachrichtigt werden */
     private final ArrayList<View> views = new ArrayList<>();
@@ -171,6 +172,7 @@ public class GameState {
 
             // Ziel erreicht
             if(GameRuleLogic.playerInGoal(this, this.player.getPositionX(), this.player.getPositionY())){
+                this.win = true;
                 deleteBoard();
                 Labyrinth.main(new String[0]);
             }
@@ -266,6 +268,29 @@ public class GameState {
         }
     }
 
+    /** Zeigt ein "W" für gewonnen oder ein "L" für verloren */
+    public void winScreen(){
+
+        for(int i = 0; i < 3; i++){
+
+            board = new Board(this.board.getWidth(), this.board.getHeight(), win);
+            updateViews();
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            board = new Board(this.board.getWidth(), this.board.getHeight(), 69);
+            updateViews();
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("Lol");
+        }
+    }
+
     /**
      * Setzt das gesamte Spiel zurück, entfernt Wände, Start/Ziel, Gegner etc.
      * und markiert das Spiel als beendet.
@@ -278,10 +303,12 @@ public class GameState {
         deleteAllWalls();
         deleteAllEnemies();
         deleteAllSGElements();
+        winScreen();
+
         closeWindow = true;
 
         try {
-            TimeUnit.MILLISECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(200);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
