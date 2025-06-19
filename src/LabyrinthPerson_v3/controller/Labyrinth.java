@@ -40,17 +40,20 @@ public class Labyrinth {
                 int width = 20;
                 int height = 19;
 
-                // Anpassung der Größe für den "SECRET"-Schwierigkeitsgrad.
+                // Definiert die Pixelgröße jedes Spielfelds für die grafische Darstellung.
+                Dimension fieldDimensions = new Dimension(35, 35);
+
+                // Anpassung der Größe (+ Pixelgröße) für den "SECRET"-Schwierigkeitsgrad.
                 if (difficulty == Difficulty.SECRET) {
                     width = 29;
                     height = 29;
+                    fieldDimensions.setSize(25, 25);
                 }
 
                 // Erstellt das Spielfeld-Model mit angegebener Größe und Schwierigkeitsgrad.
                 Board board = new Board(width, height, difficulty);
 
-                // Definiert die Pixelgröße jedes Spielfelds für die grafische Darstellung.
-                Dimension fieldDimensions = new Dimension(35, 35);
+
 
                 // Ermittelt Startposition(en) des Spielers.
                 ArrayList<Coordinates> starts = board.getIndexForFieldType(Field.START);
