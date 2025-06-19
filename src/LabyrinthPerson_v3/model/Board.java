@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 import model.generators.*;
-import view.View;
 
 /**
  * Die Klasse {@code Board} repräsentiert das Spielfeld (Modell) im MVC-Muster.
@@ -29,7 +28,7 @@ public class Board {
 	 * @param height Höhe des Boards
 	 */
 	public Board(int width, int height) {
-		// TODO: Parameterüberprüfung (z. B. Mindestgröße) könnte sinnvoll sein
+		// TODO: Parameterüberprüfung (z.B. Mindestgröße) könnte sinnvoll sein
 		this.width = width;
 		this.height = height;
 
@@ -43,7 +42,7 @@ public class Board {
 	 *
 	 * @param width      Breite des Boards
 	 * @param height     Höhe des Boards
-	 * @param difficulty Schwierigkeitsgrad (z. B. SECRET → QR-Code)
+	 * @param difficulty Schwierigkeitsgrad (z.B. SECRET → QR-Code)
 	 */
 	public Board(int width, int height, Difficulty difficulty) {
 		this.width = width;
@@ -56,6 +55,60 @@ public class Board {
 		} else {
 			// Standard-Generator für reguläre Schwierigkeitsgrade
 			newBoard = MainMaze.generate();
+		}
+
+		this.board = newBoard;
+	}
+
+
+	/**
+	 * Lädt je nach größe ein "L" oder "W" für gewonnen oder verloren
+	 *
+	 * @param width      Breite des Boards
+	 * @param height     Höhe des Boards
+	 * @param winOrLose hat der Spieler gewonnen oder verloren
+	 */
+	public Board (int width, int height, boolean winOrLose) {
+		this.width = width;
+		this.height = height;
+
+		Field[][] newBoard;
+		if (winOrLose) {
+			if (height == 29) {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W29x29.bmp");
+			} else {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W20x19.bmp");
+			}
+
+		} else {
+			if (height == 29) {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L29x29.bmp");
+			} else {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L20x19.bmp");
+			}
+
+		}
+
+		this.board = newBoard;
+	}
+
+
+	/**
+	 * Lädt ein leeres Feld je nach Größe
+	 *
+	 * @param width      Breite des Boards
+	 * @param height     Höhe des Boards
+	 * @param paceHolderLol Platzhalter um ihn von den anderen Konstruktoren zu unterscheiden xD
+	 */
+	public Board(int width, int height, int paceHolderLol) {
+		this.width = width;
+		this.height = height;
+
+		Field[][] newBoard;
+		if(height == width && width == 29){
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank29x29.bmp");
+		} else {
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank20x19.bmp");
 		}
 
 		this.board = newBoard;

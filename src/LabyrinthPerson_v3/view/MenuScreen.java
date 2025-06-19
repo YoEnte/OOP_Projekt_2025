@@ -7,8 +7,8 @@ public class MenuScreen {
     public static Difficulty showMenu() {
         Object[] options = {
                 "Easy",
-                "Mittel (mehr Gegner)",
-                "Schwer (viele Gegner)",
+                "Normal",
+                "Hard",
                 "Fun"
         };
 
