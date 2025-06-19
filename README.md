@@ -26,10 +26,10 @@
       - [GeneratorFromImage](#generatorfromimage)
       - [GeneratorHilbert](#generatorhilbert)
       - [MainMaze](#mainmaze)
-    - [View](#ins-view-ins)
-      - [ConsoleView](#consoleview)
-      - [GraphicView](#graphicview)
-      - [View](#view)
+  - [View](#ins-view-ins)
+    - [ConsoleView](#consoleview)
+    - [GraphicView](#graphicview)
+    - [View](#view)
 
 
 

@@ -10,23 +10,32 @@ import model.GameState;
 import model.enemyPackage.Enemy;
 
 /**
- * A graphical view of the world.
+ * Diese Klasse stellt die grafische Ansicht des Spiels dar.
+ * Sie zeichnet das Spielfeld, den Spieler und die Gegner.
  */
 public class GraphicView extends JPanel implements View {
 	private JFrame frame;
 
-	/** The view's width. */
+	/** Die Breite des Fensters. */
 	private final int SCREEN_WIDTH;
-	/** The view's height. */
+	/** Die Höhe des Fensters. */
 	private final int SCREEN_HEIGHT;
 
+	/** Die Breite des Spielfelds in Zellen. */
 	private final int BOARD_WIDTH;
+	/** Die Höhe des Spielfelds in Zellen. */
 	private final int BOARD_HEIGHT;
 
-
-
+	/** Die Größe jedes Feldes (z.B. 32x32 Pixel). */
 	private Dimension fieldDimension;
 
+	/**
+	 * Konstruktor: Initialisiert die grafische Ansicht mit bestimmten Maßen.
+	 *
+	 * @param width Breite des Fensters in Pixeln
+	 * @param height Höhe des Fensters in Pixeln
+	 * @param fieldDimension Dimension jedes Spielfeldes
+	 */
 	public GraphicView(int width, int height, Dimension fieldDimension) {
 		this.SCREEN_WIDTH = width;
 		this.SCREEN_HEIGHT = height;
@@ -34,56 +43,49 @@ public class GraphicView extends JPanel implements View {
 		this.BOARD_WIDTH = SCREEN_WIDTH / fieldDimension.width;
 		this.BOARD_HEIGHT = SCREEN_HEIGHT / fieldDimension.height;
 
-
 		this.fieldDimension = fieldDimension;
-        this.bg = new Rectangle(SCREEN_WIDTH, SCREEN_HEIGHT);
+		this.bg = new Rectangle(SCREEN_WIDTH, SCREEN_HEIGHT); // Hintergrundfläche
 
+		// Initialisierung des Spielfeldes und der Farben
 		this.board = new Rectangle[BOARD_HEIGHT][BOARD_WIDTH];
 		this.boardColor = new Color[BOARD_HEIGHT][BOARD_WIDTH];
 		for (int y = 0; y < SCREEN_WIDTH / fieldDimension.width; y++) {
 			for (int x = 0; x < SCREEN_WIDTH / fieldDimension.width; x++) {
-
 				board[y][x] = new Rectangle(0, 0);
-				boardColor[y][x] = new Color(0, 0, 0);
+				boardColor[y][x] = new Color(0, 0, 0); // Standardfarbe: Schwarz
 			}
 		}
 
-//		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-//		buttonPanel.setBackground(new Color(240, 240, 240));
-//
-//		JButton backButton = new JButton("← Zurück");
-//		JButton forwardButton = new JButton("Vor →");
-//		JButton restartButton = new JButton("↺ Neustart");
-//
-//		buttonPanel.add(backButton);
-//		buttonPanel.add(forwardButton);
-//		buttonPanel.add(restartButton);
-
-
-
+		// Code für Buttons (auskommentiert) könnte hier eingefügt werden.
 	}
 
-	/** The background rectangle. */
+	/** Rechteck für den Hintergrund. */
 	private final Rectangle bg;
-	/** The rectangle we're moving. */
+
+	/** Rechteck für den Spieler. */
 	private final Rectangle player = new Rectangle(0, 0);
+
+	/** Rechtecke für die Gegner. */
 	private ArrayList<Rectangle> enemies = new ArrayList<>();
 
-
+	/** 2D-Array für das Spielfeld (Grafik). */
 	private final Rectangle[][] board;
 
+	/** 2D-Array für die Farben des Spielfeldes. */
 	private final Color[][] boardColor;
 
 	/**
-	 * Creates a new instance.
+	 * Zeichnet das komplette Spielfeld neu.
+	 *
+	 * @param g Das Graphics-Objekt zum Zeichnen
 	 */
 	@Override
 	public void paint(Graphics g) {
-		// Paint background
+		// Hintergrund zeichnen
 		g.setColor(Color.RED);
 		g.fillRect(bg.x, bg.y, bg.width, bg.height);
 
-		// Paint Board
+		// Spielfeld zeichnen
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				g.setColor(boardColor[y][x]);
@@ -91,40 +93,32 @@ public class GraphicView extends JPanel implements View {
 			}
 		}
 
-		// Paint player
-		g.setColor(new Color(255, 0, 255));
+		// Spieler zeichnen
+		g.setColor(new Color(255, 0, 255)); // Magenta
 		g.fillRect(player.x, player.y, player.width, player.height);
 
-		// Paint enemies
-		g.setColor(new Color(255, 100, 0));
+		// Gegner zeichnen
+		g.setColor(new Color(255, 100, 0)); // Orange
 		for (Rectangle r : enemies) {
 			g.fillRect(r.x, r.y, r.width, r.height);
 		}
-
-
-//		ArrayList<AbstractEnemy> enemies = GameState.getListOfEnemies();
-//		(enemies.get(0).getPositionX());
-//		(enemies.get(0).getClass());
-//
-//		// g.fillRect(enemies.get(0).getPositionX(), enemies.get(0).getPositionY(), enemy.width, enemy.height);
-
-
-	}
-	public void gameStateRepaint(GameState gameState){
-		update(gameState);
 	}
 
+	/**
+	 * Aktualisiert alle grafischen Elemente entsprechend dem aktuellen Spielzustand.
+	 *
+	 * @param gameState Der aktuelle Spielzustand
+	 */
 	@Override
 	public void update(GameState gameState) {
-
-
-		// Update players size and location
+		// Position und Größe des Spielers setzen
 		player.setSize(fieldDimension);
 		player.setLocation(
-			(int) (gameState.getPlayer().getPositionX() * fieldDimension.width),
-			(int) (gameState.getPlayer().getPositionY() * fieldDimension.height)
+				(int) (gameState.getPlayer().getPositionX() * fieldDimension.width),
+				(int) (gameState.getPlayer().getPositionY() * fieldDimension.height)
 		);
 
+		// Gegner aktualisieren
 		enemies.clear();
 		for (Enemy e : gameState.getListOfEnemies()) {
 			Rectangle r = new Rectangle();
@@ -136,9 +130,7 @@ public class GraphicView extends JPanel implements View {
 			enemies.add(r);
 		}
 
-
-
-		// Update Field sizes and locations
+		// Spielfeld-Felder aktualisieren
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				board[y][x].setSize(fieldDimension);
@@ -150,12 +142,8 @@ public class GraphicView extends JPanel implements View {
 			}
 		}
 
+		// Komplette Neuzeichnung (repaint xD kp wie man das übersetzen soll) auslösen
 		repaint();
 		paintImmediately(0, 0, getWidth(), getHeight());
 	}
-
-	public void addButtons(Controller c){
-
-	}
-
 }
