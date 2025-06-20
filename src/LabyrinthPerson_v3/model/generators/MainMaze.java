@@ -6,7 +6,7 @@ import model.Board;
 
 public class MainMaze {
     public static Field[][] generate(){
-        Field[][] board = new Field[20][20];
+        Field[][] board = new Field[19][20];
 
         String[] maze = {
                 "■■■■■■■■■■■■■■■■■■■■",

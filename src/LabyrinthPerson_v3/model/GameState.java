@@ -9,7 +9,11 @@ import model.rules.InvalidSpawnException;
 import view.GraphicView;
 import view.View;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -96,9 +100,16 @@ public class GameState {
             default -> 0;
         };
 
+        String[] enemyUrls = {
+                "./src/LabyrinthPerson_v3/resources/enemy_gray",
+                "./src/LabyrinthPerson_v3/resources/enemy_black",
+                "./src/LabyrinthPerson_v3/resources/enemy_brown"
+        };
+
         boolean isValid = false;
         for(int i = 0; i < enemyCount; i++){
             while (!isValid){
+
                 try {
                     // Zufällige Position für Gegner
                     int x = random.nextInt(gameState.board.getWidth()-1)+1;
@@ -109,9 +120,9 @@ public class GameState {
 
                     // Gegnertyp je nach Index und Schwierigkeitsgrad
                     if (i < hardCount) {
-                        listOfEnemies.add(new NormalEnemy(x, y));
+                        listOfEnemies.add(new NormalEnemy(x, y, enemyUrls[i % enemyUrls.length]));
                     } else {
-                        listOfEnemies.add(new EasyEnemy(x, y));
+                        listOfEnemies.add(new EasyEnemy(x, y, enemyUrls[i % enemyUrls.length]));
                     }
                     isValid = true;
 
@@ -132,6 +143,9 @@ public class GameState {
     public Board getBoard() {
         return board;
     }
+
+    /** Gibt die difficulty zurück */
+    public Difficulty getDifficulty () {return difficulty; }
 
     /** Setzt die X-Koordinate des Spielers (innerhalb der Spielfeldgrenzen). */
     public void setPlayerX(int playerX) {
@@ -224,7 +238,7 @@ public class GameState {
             board = board.setFieldOnBoard(this.board, c, Field.PATH);
             updateViews();
             try {
-                TimeUnit.MILLISECONDS.sleep(10);
+                TimeUnit.MILLISECONDS.sleep(5);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -377,5 +391,4 @@ public class GameState {
     public boolean isGameEnded() {
         return closeWindow;
     }
-
 }

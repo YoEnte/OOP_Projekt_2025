@@ -1,11 +1,16 @@
 package view;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import controller.Controller;
+import model.Difficulty;
 import model.GameState;
 import model.enemyPackage.Enemy;
 
@@ -46,15 +51,23 @@ public class GraphicView extends JPanel implements View {
 		this.fieldDimension = fieldDimension;
 		this.bg = new Rectangle(SCREEN_WIDTH, SCREEN_HEIGHT); // Hintergrundfläche
 
-		// Initialisierung des Spielfeldes und der Farben
+		// Initialisierung des Spielfeldes, der Farben und der Bilder
 		this.board = new Rectangle[BOARD_HEIGHT][BOARD_WIDTH];
 		this.boardColor = new Color[BOARD_HEIGHT][BOARD_WIDTH];
-		for (int y = 0; y < SCREEN_HEIGHT / fieldDimension.height; y++) {
+		this.boardImage = new BufferedImage[BOARD_HEIGHT][BOARD_WIDTH];
+		for (int y = 0; y < SCREEN_HEIGHT / fieldDimension.width; y++) {
 			for (int x = 0; x < SCREEN_WIDTH / fieldDimension.width; x++) {
 				board[y][x] = new Rectangle(0, 0);
 				boardColor[y][x] = new Color(0, 0, 0); // Standardfarbe: Schwarz
+				boardImage[y][x] = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);  // Standard: blankes Bild 10x10
 			}
 		}
+
+		// Init Spieler Grafiken Blanko
+		this.playerImages = new BufferedImage[] {
+				new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB),
+				new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB)
+		};
 
 		// Code für Buttons (auskommentiert) könnte hier eingefügt werden.
 	}
@@ -65,14 +78,26 @@ public class GraphicView extends JPanel implements View {
 	/** Rechteck für den Spieler. */
 	private final Rectangle player = new Rectangle(0, 0);
 
+	/** Grafik für den Spieler */
+	private final BufferedImage[] playerImages;
+
 	/** Rechtecke für die Gegner. */
-	private ArrayList<Rectangle> enemies = new ArrayList<>();
+	private final ArrayList<Rectangle> enemies = new ArrayList<>();
+
+	/** Grafiken für die Gegner. */
+	private final ArrayList<BufferedImage> enemiesImage = new ArrayList<>();
 
 	/** 2D-Array für das Spielfeld (Grafik). */
 	private final Rectangle[][] board;
 
 	/** 2D-Array für die Farben des Spielfeldes. */
 	private final Color[][] boardColor;
+
+	/** 2D-Array für die Grafiken des Spielfeldes. */
+	private final BufferedImage[][] boardImage;
+
+	/** Ob für den nächsten Frame Bilder oder nur Farben gemalt werden soll */
+	private boolean useAssets;
 
 	/**
 	 * Zeichnet das komplette Spielfeld neu.
@@ -88,19 +113,35 @@ public class GraphicView extends JPanel implements View {
 		// Spielfeld zeichnen
 		for (int y = 0; y < BOARD_HEIGHT; y++) {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
-				g.setColor(boardColor[y][x]);
-				g.fillRect(board[y][x].x, board[y][x].y, board[y][x].width, board[y][x].height);
+				if (useAssets) {
+					g.drawImage(boardImage[y][x], board[y][x].x, board[y][x].y, fieldDimension.width, fieldDimension.height, this);
+				} else {
+					g.setColor(boardColor[y][x]);
+					g.fillRect(board[y][x].x, board[y][x].y, board[y][x].width, board[y][x].height);
+				}
 			}
 		}
 
 		// Spieler zeichnen
-		g.setColor(new Color(255, 0, 255)); // Magenta
-		g.fillRect(player.x, player.y, player.width, player.height);
+		if (useAssets) {
+			g.drawImage(playerImages[0], player.x, player.y, fieldDimension.width, fieldDimension.height, this);
+		} else {
+			g.setColor(new Color(255, 0, 255)); // Magenta
+			g.fillRect(player.x, player.y, player.width, player.height);
+		}
+
 
 		// Gegner zeichnen
-		g.setColor(new Color(255, 100, 0)); // Orange
+		int i = 0;
 		for (Rectangle r : enemies) {
-			g.fillRect(r.x, r.y, r.width, r.height);
+			if (useAssets) {
+				g.drawImage(enemiesImage.get(i * 2), r.x, r.y, fieldDimension.width, fieldDimension.height, this);
+			} else {
+				g.setColor(new Color(255, 100, 0)); // Orange
+				g.fillRect(r.x, r.y, r.width, r.height);
+			}
+
+			i++;
 		}
 	}
 
@@ -111,6 +152,28 @@ public class GraphicView extends JPanel implements View {
 	 */
 	@Override
 	public void update(GameState gameState) {
+
+		// überneheme Asset Modus
+		this.useAssets = true;
+		if (gameState.getDifficulty() == Difficulty.SECRET) {
+			this.useAssets = false;
+		}
+
+		// alle Bilddateien kopieren am Anfang vom Spiel
+		playerImages[0] = gameState.getPlayer().getImage();
+		playerImages[1] = gameState.getPlayer().getImageFlipped();
+
+		for (Enemy e : gameState.getListOfEnemies()) {
+			enemiesImage.add(e.getImage());
+			enemiesImage.add(e.getImageFlipped());
+		}
+
+		for (int y = 0; y < BOARD_HEIGHT; y++) {
+			for (int x = 0; x < BOARD_WIDTH; x++) {
+				boardImage[y][x] = gameState.getBoard().getField(x, y).image;
+			}
+		}
+
 		// Position und Größe des Spielers setzen
 		player.setSize(fieldDimension);
 		player.setLocation(
@@ -138,6 +201,7 @@ public class GraphicView extends JPanel implements View {
 						(int) (x * fieldDimension.width),
 						(int) (y * fieldDimension.height)
 				);
+
 				boardColor[y][x] = gameState.getBoard().getField(x, y).color;
 			}
 		}

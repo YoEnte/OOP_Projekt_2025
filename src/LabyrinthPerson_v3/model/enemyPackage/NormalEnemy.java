@@ -4,6 +4,7 @@ import model.Direction;
 import model.GameState;
 import model.rules.GameRuleLogic;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,12 +12,12 @@ public class NormalEnemy extends Enemy {
 
     static Random random = new Random();
 
-    public NormalEnemy(int positionX,int positionY){
-        super(positionX, positionY);
+    public NormalEnemy(int positionX, int positionY, String url){
+        super(positionX, positionY, url);
     }
 
     public NormalEnemy(NormalEnemy other) {
-        super(other.getPositionX(), other.getPositionY());
+        super(other.getPositionX(), other.getPositionY(), other.getUrl());
     }
 
     public void performMove(GameState gameState) {
