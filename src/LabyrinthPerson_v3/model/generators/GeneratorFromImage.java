@@ -1,7 +1,5 @@
 package model.generators;
 
-import model.Board;
-import model.Coordinates;
 import model.Field;
 
 import java.awt.*;
@@ -30,7 +28,7 @@ public class GeneratorFromImage {
     public static Field[][] generate(int width, int height, String sourcePath) {
 
         Field[][] board = new Field[height][width]; // Initialisiere leeres Spielfeld
-        BufferedImage image = null;
+        BufferedImage image;
 
         try {
             File input_file = new File(sourcePath); // Lade Bilddatei vom angegebenen Pfad

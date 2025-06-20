@@ -12,13 +12,13 @@ import model.generators.*;
 public class Board {
 
 	/** Breite des Spielfelds. */
-	private int width;
+	private final int width;
 
 	/** Höhe des Spielfelds. */
-	private int height;
+	private final int height;
 
 	/** Zweidimensionales Array, das das Spielfeld mit seinen Feldern speichert. */
-	private Field[][] board;
+	private final Field[][] board;
 
 	/**
 	 * Konstruktor mit zusätzlichem Schwierigkeitsgrad-Parameter.

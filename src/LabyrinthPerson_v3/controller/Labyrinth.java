@@ -50,7 +50,7 @@ public class Labyrinth {
 
                 // Ermittelt Startposition(en) des Spielers und erstelle Spieler.
                 ArrayList<Coordinates> starts = board.getIndexForFieldType(Field.START);
-                Player player = new Player(starts.get(0).getXCoordinate(), starts.get(0).getYCoordinate(), "./src/LabyrinthPerson_v3/resources/player");
+                Player player = new Player(starts.getFirst().getXCoordinate(), starts.getFirst().getYCoordinate(), "./src/LabyrinthPerson_v3/resources/player");
 
                 // Erstellt den Spielzustand mit initialem Punktestand 0.
                 GameState gameState = new GameState(0, board, player, difficulty);

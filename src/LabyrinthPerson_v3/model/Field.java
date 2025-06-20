@@ -34,7 +34,7 @@ public enum Field {
      * @param color The color for GraphicsView.
      * @param symbole The representation for ConsoleView.
      */
-    private Field(String type, Color color, char symbole, String url) {
+    Field(String type, Color color, char symbole, String url) {
         this.type = type;
         this.color = color;
         this.symbole = symbole;

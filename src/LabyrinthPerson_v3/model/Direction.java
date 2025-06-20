@@ -26,7 +26,7 @@ public enum Direction {
 	 * @param deltaX The amount to move in the X direction.
 	 * @param deltaY The amount to move in the Y direction.
 	 */
-	private Direction(int deltaX, int deltaY) {
+	Direction(int deltaX, int deltaY) {
 		this.deltaX = deltaX;
 		this.deltaY = deltaY;
 	}

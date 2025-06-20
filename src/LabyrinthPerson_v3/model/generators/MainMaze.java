@@ -1,8 +1,6 @@
 package model.generators;
 
-import model.Coordinates;
 import model.Field;
-import model.Board;
 
 public class MainMaze {
     public static Field[][] generate(){
