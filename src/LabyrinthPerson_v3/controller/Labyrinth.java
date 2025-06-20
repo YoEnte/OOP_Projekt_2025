@@ -59,7 +59,8 @@ public class Labyrinth {
                 GraphicView gview = new GraphicView(
                         width * fieldDimensions.width,
                         height * fieldDimensions.height,
-                        fieldDimensions);
+                        fieldDimensions,
+                        gameState);
                 gameState.registerView(gview);
                 gview.setVisible(true);
 

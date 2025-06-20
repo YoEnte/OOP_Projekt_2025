@@ -398,4 +398,13 @@ public class GameState {
     public boolean isGameEnded() {
         return closeWindow;
     }
+
+    /**
+     * Gibt an, ob das Spiel an sich zu Ende ist (Gewonnen / Verloren).
+     *
+     * @return Spiel zu Ende
+     */
+    public boolean getGameEnd() {
+        return gameEnd;
+    }
 }

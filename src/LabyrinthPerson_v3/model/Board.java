@@ -57,15 +57,15 @@ public class Board {
 
 		Field[][] newBoard;
 		if (winOrLose) {
-			if (height == 29) {
-				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W29x29.bmp");
+			if (height == 33) {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W33x33.bmp");
 			} else {
 				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W20x19.bmp");
 			}
 
 		} else {
-			if (height == 29) {
-				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L29x29.bmp");
+			if (height == 33) {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L33x33.bmp");
 			} else {
 				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L20x19.bmp");
 			}
@@ -88,8 +88,8 @@ public class Board {
 		this.height = height;
 
 		Field[][] newBoard;
-		if(height == width && width == 29){
-			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank29x29.bmp");
+		if(height == width && width == 33){
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank33x33.bmp");
 		} else {
 			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank20x19.bmp");
 		}
@@ -187,10 +187,10 @@ public class Board {
 	public ArrayList<Coordinates> getIndexForFieldType(Field field) {
 		ArrayList<Coordinates> indexes = new ArrayList<>();
 
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				if (board[j][i] == field) {
-					indexes.add(new Coordinates(i, j));
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (board[y][x] == field) {
+					indexes.add(new Coordinates(x, y));
 				}
 			}
 		}
