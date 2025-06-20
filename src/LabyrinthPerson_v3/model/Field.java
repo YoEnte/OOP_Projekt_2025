@@ -39,11 +39,11 @@ public enum Field {
         this.color = color;
         this.symbole = symbole;
 
+        // load image -> if error create blank image
         BufferedImage imageTemp;
         try {
             imageTemp = ImageIO.read(new File(url));
         } catch (IOException e) {
-            System.out.println("image error");
             imageTemp = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
         }
         this.image = imageTemp;

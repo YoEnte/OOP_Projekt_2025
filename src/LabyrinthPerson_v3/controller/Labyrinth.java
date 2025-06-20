@@ -30,7 +30,6 @@ public class Labyrinth {
 
                 // Zeigt das Menü und liest die gewählte Schwierigkeit vom Benutzer.
                 Difficulty difficulty = MenuScreen.showMenu();
-                System.out.println(difficulty);
 
                 // Definiert Standardgröße des Spielfelds (inkl. Rand).
                 int width = 20;

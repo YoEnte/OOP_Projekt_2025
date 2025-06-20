@@ -48,8 +48,7 @@ public class GeneratorFromImage {
                 }
             }
         } catch (IOException e) {
-            // Fehler beim Einlesen der Bilddatei
-            System.out.println("Error " + e);
+            // pass
         }
 
         return board;

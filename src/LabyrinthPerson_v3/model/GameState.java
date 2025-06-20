@@ -214,7 +214,8 @@ public class GameState {
             History.addGameState(new GameState(this));
 
         } catch (InvalidMoveException e){
-            System.out.println(e.getMessage());
+            // Zeigt hauptsächlich an, wenn man gegen eine Wand läuft
+            // System.out.println(e.getMessage());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -301,7 +302,6 @@ public class GameState {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            System.out.println("Lol");
         }
     }
 
