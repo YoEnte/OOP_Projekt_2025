@@ -160,6 +160,7 @@ public class GraphicView extends JPanel implements View {
 		}
 
 		// alle Bilddateien kopieren am Anfang vom Spiel
+		if (this.useAssets){
 		playerImages[0] = gameState.getPlayer().getImage();
 		playerImages[1] = gameState.getPlayer().getImageFlipped();
 
@@ -173,7 +174,7 @@ public class GraphicView extends JPanel implements View {
 				boardImage[y][x] = gameState.getBoard().getField(x, y).image;
 			}
 		}
-
+	}
 		// Position und Größe des Spielers setzen
 		player.setSize(fieldDimension);
 		player.setLocation(
