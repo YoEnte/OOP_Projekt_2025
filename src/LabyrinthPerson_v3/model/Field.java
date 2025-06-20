@@ -8,6 +8,8 @@ import java.io.IOException;
 
 /**
  * represents a Field type
+ * This class is in english because we started in english
+ * but weren't sure if it was ok to continue.
  */
 public enum Field {
 

@@ -1,3 +1,20 @@
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+DISCLAIMER: Bitte lest die Dokumentation im README.md. Das hier ist das README
+einfach nur kopiert. Da txt aber kein Markdown unterstützt, sieht das hier echt
+nicht gut aus. (Außerdem wurden viele Semetic Line Breaks genutzt).
+
+Wir haben uns Mühe gegeben, den Code so gut wie möglich zu dokumentieren, also wechselt
+nun für die volle Experience zu dem Markdown-Dokument "README.md" im Projekt.
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+
 # ***OOP_Projekt_2025***
 
 
@@ -30,7 +47,6 @@
   - [View](#ins-view-ins)
     - [ConsoleView](#consoleview)
     - [GraphicView](#graphicview)
-    - [MenuScreen](#menuscreen)
     - [View](#view)
 
 
