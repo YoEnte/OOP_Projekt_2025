@@ -4,6 +4,7 @@ import model.Direction;
 import model.GameState;
 import model.rules.GameRuleLogic;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,12 +13,12 @@ public class EasyEnemy extends Enemy {
     static Random random = new Random();
 
 
-    public EasyEnemy(int positionX,int positionY){
-        super(positionX, positionY);
+    public EasyEnemy(int positionX, int positionY, String url){
+        super(positionX, positionY, url);
     }
 
     public EasyEnemy(EasyEnemy other) {
-        super(other.getPositionX(), other.getPositionY());
+        super(other.getPositionX(), other.getPositionY(), other.getUrl());
     }
 
     //TODO Fix invalid moves
