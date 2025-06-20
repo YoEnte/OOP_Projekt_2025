@@ -1,7 +1,5 @@
 package model.generators;
 
-import model.Board;
-import model.Coordinates;
 import model.Field;
 
 import java.awt.*;
@@ -12,7 +10,7 @@ import javax.imageio.ImageIO;
 
 /**
  * Diese Klasse ermöglicht die Generierung eines Spielfeldes (Field[][]) aus einem Bild.
- * Dabei werden die Farben der einzelnen Pixel aus dem Bild in Spiel-Felder (WALL, PATH, START, GOAL) übersetzt.
+ * Dabei werden die Farben der einzelnen Pixel aus dem Bild in Spiel-Felder (WALL, PATH, START, GOAL, INVW) übersetzt.
  */
 public class GeneratorFromImage {
 
@@ -30,7 +28,7 @@ public class GeneratorFromImage {
     public static Field[][] generate(int width, int height, String sourcePath) {
 
         Field[][] board = new Field[height][width]; // Initialisiere leeres Spielfeld
-        BufferedImage image = null;
+        BufferedImage image;
 
         try {
             File input_file = new File(sourcePath); // Lade Bilddatei vom angegebenen Pfad
@@ -48,8 +46,7 @@ public class GeneratorFromImage {
                 }
             }
         } catch (IOException e) {
-            // Fehler beim Einlesen der Bilddatei
-            System.out.println("Error " + e);
+            // pass
         }
 
         return board;
@@ -77,6 +74,8 @@ public class GeneratorFromImage {
             thisField = Field.GOAL;
         } else if (clr.equals(Field.WALL.color)) {
             thisField = Field.WALL;
+        } else if (clr.equals(Field.INVW.color)) {
+            thisField = Field.INVW;
         } else if (clr.equals(Field.PATH.color)) {
             thisField = Field.PATH;
         } else if (clr.equals(Field.START.color)) {

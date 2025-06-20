@@ -12,29 +12,13 @@ import model.generators.*;
 public class Board {
 
 	/** Breite des Spielfelds. */
-	private int width;
+	private final int width;
 
 	/** Höhe des Spielfelds. */
-	private int height;
+	private final int height;
 
 	/** Zweidimensionales Array, das das Spielfeld mit seinen Feldern speichert. */
-	private Field[][] board;
-
-	/**
-	 * Konstruktor für ein Standard-Board.
-	 * Erstellt ein spezielles Labyrinth aus einem Bild (QR-Code).
-	 *
-	 * @param width  Breite des Boards
-	 * @param height Höhe des Boards
-	 */
-	public Board(int width, int height) {
-		// TODO: Parameterüberprüfung (z.B. Mindestgröße) könnte sinnvoll sein
-		this.width = width;
-		this.height = height;
-
-		// Labyrinth aus einem Bild (QR-Code) generieren
-		this.board = GeneratorFromImage.generate(29, 29, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
-	}
+	private final Field[][] board;
 
 	/**
 	 * Konstruktor mit zusätzlichem Schwierigkeitsgrad-Parameter.
@@ -51,7 +35,7 @@ public class Board {
 		Field[][] newBoard;
 		if (difficulty == Difficulty.SECRET) {
 			// Bei SECRET wird das Labyrinth aus einem Bild generiert
-			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/qr_code2.bmp");
 		} else {
 			// Standard-Generator für reguläre Schwierigkeitsgrade
 			newBoard = MainMaze.generate();
@@ -59,7 +43,6 @@ public class Board {
 
 		this.board = newBoard;
 	}
-
 
 	/**
 	 * Lädt je nach größe ein "L" oder "W" für gewonnen oder verloren
@@ -74,15 +57,15 @@ public class Board {
 
 		Field[][] newBoard;
 		if (winOrLose) {
-			if (height == 29) {
-				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W29x29.bmp");
+			if (height == 33) {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W33x33.bmp");
 			} else {
 				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/W20x19.bmp");
 			}
 
 		} else {
-			if (height == 29) {
-				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L29x29.bmp");
+			if (height == 33) {
+				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L33x33.bmp");
 			} else {
 				newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/L20x19.bmp");
 			}
@@ -105,8 +88,8 @@ public class Board {
 		this.height = height;
 
 		Field[][] newBoard;
-		if(height == width && width == 29){
-			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank29x29.bmp");
+		if(height == width && width == 33){
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank33x33.bmp");
 		} else {
 			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/Blank20x19.bmp");
 		}
@@ -204,10 +187,10 @@ public class Board {
 	public ArrayList<Coordinates> getIndexForFieldType(Field field) {
 		ArrayList<Coordinates> indexes = new ArrayList<>();
 
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				if (board[j][i] == field) {
-					indexes.add(new Coordinates(i, j));
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (board[y][x] == field) {
+					indexes.add(new Coordinates(x, y));
 				}
 			}
 		}

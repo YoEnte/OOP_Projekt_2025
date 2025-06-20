@@ -13,6 +13,8 @@ public enum Field {
 
     /** Wall field */
     WALL("Wall", new Color(0, 0, 0), '■', "./src/LabyrinthPerson_v3/resources/wall3.png"),
+    /** Invisible Wall field */
+    INVW("Inv Wall", new Color(254, 254, 254), 'I', "./src/LabyrinthPerson_v3/resources/path.png"),
     /** Start field */
     START("Start", new Color(255, 0, 0), 'S', "./src/LabyrinthPerson_v3/resources/start.png"),
     /** Goal field */
@@ -32,16 +34,16 @@ public enum Field {
      * @param color The color for GraphicsView.
      * @param symbole The representation for ConsoleView.
      */
-    private Field(String type, Color color, char symbole, String url) {
+    Field(String type, Color color, char symbole, String url) {
         this.type = type;
         this.color = color;
         this.symbole = symbole;
 
+        // load image -> if error create blank image
         BufferedImage imageTemp;
         try {
             imageTemp = ImageIO.read(new File(url));
         } catch (IOException e) {
-            System.out.println("image error");
             imageTemp = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
         }
         this.image = imageTemp;

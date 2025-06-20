@@ -1,18 +1,13 @@
 package view;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
-import controller.Controller;
 import model.Difficulty;
 import model.GameState;
 import model.enemyPackage.Enemy;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import javax.swing.*;
 
 /**
  * Diese Klasse stellt die grafische Ansicht des Spiels dar.
@@ -32,7 +27,7 @@ public class GraphicView extends JPanel implements View {
 	private final int BOARD_HEIGHT;
 
 	/** Die Größe jedes Feldes (z.B. 32x32 Pixel). */
-	private Dimension fieldDimension;
+	private final Dimension fieldDimension;
 
 	/**
 	 * Konstruktor: Initialisiert die grafische Ansicht mit bestimmten Maßen.
@@ -41,7 +36,7 @@ public class GraphicView extends JPanel implements View {
 	 * @param height Höhe des Fensters in Pixeln
 	 * @param fieldDimension Dimension jedes Spielfeldes
 	 */
-	public GraphicView(int width, int height, Dimension fieldDimension) {
+	public GraphicView(int width, int height, Dimension fieldDimension, GameState gameState) {
 		this.SCREEN_WIDTH = width;
 		this.SCREEN_HEIGHT = height;
 
@@ -68,6 +63,8 @@ public class GraphicView extends JPanel implements View {
 				new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB),
 				new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB)
 		};
+
+		reloadGraphics(gameState);
 
 		// Code für Buttons (auskommentiert) könnte hier eingefügt werden.
 	}
@@ -100,6 +97,27 @@ public class GraphicView extends JPanel implements View {
 	private boolean useAssets;
 
 	/**
+	 * Läd alle Grafiken der Enemies, Spieler, Felder aus dem GameState neu in die eigenen Attribute.
+	 *
+	 * @param gameState Aktueller GameState
+	 */
+	private void reloadGraphics(GameState gameState) {
+		playerImages[0] = gameState.getPlayer().getImage();
+		playerImages[1] = gameState.getPlayer().getImageFlipped();
+
+		for (Enemy e : gameState.getListOfEnemies()) {
+			enemiesImage.add(e.getImage());
+			enemiesImage.add(e.getImageFlipped());
+		}
+
+		for (int y = 0; y < BOARD_HEIGHT; y++) {
+			for (int x = 0; x < BOARD_WIDTH; x++) {
+				boardImage[y][x] = gameState.getBoard().getField(x, y).image;
+			}
+		}
+	}
+
+	/**
 	 * Zeichnet das komplette Spielfeld neu.
 	 *
 	 * @param g Das Graphics-Objekt zum Zeichnen
@@ -130,7 +148,6 @@ public class GraphicView extends JPanel implements View {
 			g.fillRect(player.x, player.y, player.width, player.height);
 		}
 
-
 		// Gegner zeichnen
 		int i = 0;
 		for (Rectangle r : enemies) {
@@ -154,32 +171,18 @@ public class GraphicView extends JPanel implements View {
 	public void update(GameState gameState) {
 
 		// überneheme Asset Modus
-		this.useAssets = true;
-		if (gameState.getDifficulty() == Difficulty.SECRET) {
-			this.useAssets = false;
+        this.useAssets = gameState.getDifficulty() != Difficulty.SECRET;
+
+		// Grafiken neuladen bei jedem Frame, wenn das Game zu Ende ist (für Animation)
+		if (gameState.getGameEnd() && useAssets) {
+			reloadGraphics(gameState);
 		}
 
-		// alle Bilddateien kopieren am Anfang vom Spiel
-		if (this.useAssets){
-		playerImages[0] = gameState.getPlayer().getImage();
-		playerImages[1] = gameState.getPlayer().getImageFlipped();
-
-		for (Enemy e : gameState.getListOfEnemies()) {
-			enemiesImage.add(e.getImage());
-			enemiesImage.add(e.getImageFlipped());
-		}
-
-		for (int y = 0; y < BOARD_HEIGHT; y++) {
-			for (int x = 0; x < BOARD_WIDTH; x++) {
-				boardImage[y][x] = gameState.getBoard().getField(x, y).image;
-			}
-		}
-	}
 		// Position und Größe des Spielers setzen
 		player.setSize(fieldDimension);
 		player.setLocation(
-				(int) (gameState.getPlayer().getPositionX() * fieldDimension.width),
-				(int) (gameState.getPlayer().getPositionY() * fieldDimension.height)
+				(gameState.getPlayer().getPositionX() * fieldDimension.width),
+				(gameState.getPlayer().getPositionY() * fieldDimension.height)
 		);
 
 		// Gegner aktualisieren
@@ -188,8 +191,8 @@ public class GraphicView extends JPanel implements View {
 			Rectangle r = new Rectangle();
 			r.setSize(fieldDimension);
 			r.setLocation(
-					(int) (e.getPositionX() * fieldDimension.width),
-					(int) (e.getPositionY() * fieldDimension.height)
+					(e.getPositionX() * fieldDimension.width),
+					(e.getPositionY() * fieldDimension.height)
 			);
 			enemies.add(r);
 		}
@@ -199,8 +202,8 @@ public class GraphicView extends JPanel implements View {
 			for (int x = 0; x < BOARD_WIDTH; x++) {
 				board[y][x].setSize(fieldDimension);
 				board[y][x].setLocation(
-						(int) (x * fieldDimension.width),
-						(int) (y * fieldDimension.height)
+						(x * fieldDimension.width),
+						(y * fieldDimension.height)
 				);
 
 				boardColor[y][x] = gameState.getBoard().getField(x, y).color;

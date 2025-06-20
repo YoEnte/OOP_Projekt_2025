@@ -1,19 +1,12 @@
 package model;
 
-import controller.Controller;
 import controller.Labyrinth;
 import model.enemyPackage.*;
 import model.rules.GameRuleLogic;
 import model.rules.InvalidMoveException;
 import model.rules.InvalidSpawnException;
-import view.GraphicView;
 import view.View;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -147,20 +140,6 @@ public class GameState {
     /** Gibt die difficulty zurück */
     public Difficulty getDifficulty () {return difficulty; }
 
-    /** Setzt die X-Koordinate des Spielers (innerhalb der Spielfeldgrenzen). */
-    public void setPlayerX(int playerX) {
-        playerX = Math.max(0, playerX);
-        playerX = Math.min(board.getWidth(), playerX);
-        this.player.setPlayerX(playerX);
-    }
-
-    /** Setzt die Y-Koordinate des Spielers (innerhalb der Spielfeldgrenzen). */
-    public void setPlayerY(int playerY) {
-        playerY = Math.max(0, playerY);
-        playerY = Math.min(board.getHeight(), playerY);
-        this.player.setPlayerY(playerY);
-    }
-
     ///////////////////////////////////////////////////////////////////////////
     // Spielersteuerung
 
@@ -214,7 +193,8 @@ public class GameState {
             History.addGameState(new GameState(this));
 
         } catch (InvalidMoveException e){
-            System.out.println(e.getMessage());
+            // Zeigt hauptsächlich an, wenn man gegen eine Wand läuft
+            // System.out.println(e.getMessage());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -301,7 +281,6 @@ public class GameState {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            System.out.println("Lol");
         }
     }
 
@@ -387,8 +366,8 @@ public class GameState {
      * Aktualisiert alle registrierten Views mit dem aktuellen Spielzustand.
      */
     public void updateViews() {
-        for (int i = 0; i < views.size(); i++) {
-            views.get(i).update(this);
+        for (View view : views) {
+            view.update(this);
         }
     }
 
@@ -397,5 +376,14 @@ public class GameState {
      */
     public boolean isGameEnded() {
         return closeWindow;
+    }
+
+    /**
+     * Gibt an, ob das Spiel an sich zu Ende ist (Gewonnen / Verloren).
+     *
+     * @return Spiel zu Ende
+     */
+    public boolean getGameEnd() {
+        return gameEnd;
     }
 }

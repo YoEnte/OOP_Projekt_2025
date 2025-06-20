@@ -31,14 +31,13 @@ public class Player {
         this.playerX = x;
         this.playerY = y;
 
-        // Bilddateien laden und speichern
+        // Bilddateien laden und speichern -> bei fehler blanke bilder speichern
         BufferedImage imageTemp;
         BufferedImage imageFlippedTemp;
         try {
             imageTemp = ImageIO.read(new File(url + ".png"));
             imageFlippedTemp = ImageIO.read(new File(url + "_flipped.png"));
         } catch (IOException e) {
-            System.out.println("image error");
             imageTemp = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
             imageFlippedTemp = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
         }
