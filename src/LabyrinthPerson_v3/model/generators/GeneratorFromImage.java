@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 /**
  * Diese Klasse ermöglicht die Generierung eines Spielfeldes (Field[][]) aus einem Bild.
- * Dabei werden die Farben der einzelnen Pixel aus dem Bild in Spiel-Felder (WALL, PATH, START, GOAL) übersetzt.
+ * Dabei werden die Farben der einzelnen Pixel aus dem Bild in Spiel-Felder (WALL, PATH, START, GOAL, INVW) übersetzt.
  */
 public class GeneratorFromImage {
 

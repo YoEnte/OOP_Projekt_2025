@@ -294,7 +294,8 @@ Diese Klasse kann Labyrinthe aufgrund von Bitmaps erstellen.
 
 ### *GeneratorHilbert*
 
-Diese Klasse generiert im Rahmen der extra Features zufällige Labyrinthe.
+Diese Klasse sollte im Rahmen der extra Features zufällige Labyrinthe generieren.
+Wurde leider nicht fertig, also gibt sie das Labyrinth aus MainMaze zurück.
 
 
 ### *MainMaze*
