@@ -3,6 +3,7 @@
 
 # Inhaltsverzeichnis
 - [Allgemeines](#allgemeines)
+- [Regeln und Informationen](#regeln-und-informationen)
 - [Aufbau des Codes](#aufbau-des-codes)
   - [Controller](#controller)
     - [Klasse Controller](#ins-controller-ins)
@@ -40,6 +41,40 @@ OOP Abschluss Projekt von Anthony Röder und Thomas Kaczmarczyk. </br>
 Für das Projekt wurde das Java Development Kit (JDK) 24
 und als IDE IntelliJ IDEA Community Edition verwendet.
 Weiter wurde für die Zusammenarbeit Github benutzt.
+
+# Regeln und Informationen
+
+Wie wird unser Spiel gespielt? </br>
+Der User führt die Klasse Labyrinth aus 
+und wählt in dem Menü, das auftaucht,
+eine Schwierigkeitsstufe aus,
+in der das Spiel gestartet werden soll.
+Die Stufen unterscheiden sich in dem Sinne,
+dass es unterschiedlich viele "intelligente" Bots gibt.
+Es sind immer 3 Gegner,
+aber je nach Stufe gibt es 1, 2 oder 3 intelligente. </br>
+
+Wenn das Spiel gestartet wurde,
+ist es das Ziel Jerry vom roten Mauseloch zu dem grünen zu navigieren,
+ohne von Tom oder den anderen Katzen gefangen zu werden.
+Um Jerry zu bewegen,
+kann man entweder die Pfeiltasten (wie in der Vorlage)
+oder WASD benutzen.
+Weiter kann man "O" und "P" 
+oder die Buttons benutzen,
+um Zeitreisen durchzuführen.
+Dabei steht "O" für zurück "P" für Vorwärts durch die Zeit.
+Wenn man einen Zeitpunkt gefunden hat, 
+ab dem man weiterspielen möchte,
+tut man dies einfach und der Spielverlauf passt sich automatisch an.
+Möchte man das Spiel schon früher abbrechen, 
+kann man das Fenster entweder schließen
+oder den Button "Menu" verwenden (letzteres öffnet das Hauptmenü). </br>
+
+Das Spiel endet, wenn man gefangen wurde 
+oder im anderen Mauseloch angekommen ist.
+Je nach Szenario wird nach der Runde auf dem Screen ein "W" angezeigt,
+wenn man gewonnen und "L" falls man verloren hat.
 
 # Aufbau des Codes
 
