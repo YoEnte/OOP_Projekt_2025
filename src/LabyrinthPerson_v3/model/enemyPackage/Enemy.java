@@ -1,10 +1,16 @@
 package model.enemyPackage;
 
+import model.GameState;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Abstrakte Klasse, die den Gegner repäsentiert.
+ * Speichert Koordinaten, Url zur Bild Datei, gebufferte Bilder
+ */
 public abstract class Enemy {
 
     private int x;
@@ -12,6 +18,13 @@ public abstract class Enemy {
     private String url;
     private BufferedImage image;
     private BufferedImage imageFlipped;
+
+    /**
+     * Einfach constructor
+     * @param x x Koordinate
+     * @param y y Koordinate
+     * @param url Url zur Datei (ohne .png)
+     */
     protected Enemy(int x, int y, String url){
         this.x = x;
         this.y = y;
@@ -30,6 +43,28 @@ public abstract class Enemy {
         this.image = imageTemp;
         this.imageFlipped = imageFlippedTemp;
     }
+
+    /**
+     * Konstruktor, der neben der Url auch direkt geladene Bilder nimmt
+     * @param x x Koordinate
+     * @param y y Koordinate
+     * @param url Url (ohne .png)
+     * @param image Normale Sprite
+     * @param imageFlipped gespiegelte Sprite
+     */
+    protected Enemy(int x, int y, String url, BufferedImage image, BufferedImage imageFlipped) {
+        this.x = x;
+        this.y = y;
+        this.url = url;
+        this.image = image;
+        this.imageFlipped = imageFlipped;
+    }
+
+    /**
+     * generiert einen Zug, der aus der aktuellen Position gespielt werden soll
+     * @param gamestate aktueller Spielstand
+     */
+    protected abstract void performMove(GameState gamestate);
 
     public int getPositionX(){
         return x;
