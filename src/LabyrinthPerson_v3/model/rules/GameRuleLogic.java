@@ -43,14 +43,16 @@ public class GameRuleLogic {
                 throw new InvalidMoveException("The position is out of bounds");
             }
 
-            // Überprüfen, ob sich eine Wand am Ziel befindet
-            if((gameState.getBoard().getFieldList())[playerY][playerX] ==  Field.WALL){
+            // Überprüfen, ob sich eine (unsichtbare) Wand am Ziel befindet
+            Field newField = (gameState.getBoard().getFieldList())[playerY][playerX];
+            if(newField == Field.WALL || newField == Field.INVW){
                 throw new InvalidMoveException("There is a Wall");
             }
 
         } else {
             // Für alle anderen Objekte (z. B. Gegner)
-            if((gameState.getBoard().getFieldList())[positionY + direction.deltaY][positionX + direction.deltaX] ==  Field.WALL){
+            Field newField = (gameState.getBoard().getFieldList())[positionY + direction.deltaY][positionX + direction.deltaX];
+            if(newField == Field.WALL || newField == Field.INVW){
                 throw new InvalidMoveException("There is a Wall");
             }
 
@@ -76,8 +78,9 @@ public class GameRuleLogic {
      */
     public static boolean isValidToSpawn(GameState gameState, int positionX, int positionY) throws InvalidSpawnException {
 
-        // Überprüfen, ob es eine Wand ist
-        if((gameState.getBoard().getFieldList())[positionY][positionX] ==  Field.WALL){
+        // Überprüfen, ob es eine (unsichtbare) Wand ist
+        Field newField = (gameState.getBoard().getFieldList())[positionY][positionX];
+        if(newField == Field.WALL || newField == Field.INVW){
             throw new InvalidSpawnException("There is a Wall");
         }
 

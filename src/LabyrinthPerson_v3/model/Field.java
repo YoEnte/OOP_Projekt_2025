@@ -13,6 +13,8 @@ public enum Field {
 
     /** Wall field */
     WALL("Wall", new Color(0, 0, 0), '■', "./src/LabyrinthPerson_v3/resources/wall3.png"),
+    /** Invisible Wall field */
+    INVW("Inv Wall", new Color(254, 254, 254), 'I', "./src/LabyrinthPerson_v3/resources/path.png"),
     /** Start field */
     START("Start", new Color(255, 0, 0), 'S', "./src/LabyrinthPerson_v3/resources/start.png"),
     /** Goal field */

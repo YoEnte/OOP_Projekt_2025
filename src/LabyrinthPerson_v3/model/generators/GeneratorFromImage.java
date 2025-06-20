@@ -77,6 +77,8 @@ public class GeneratorFromImage {
             thisField = Field.GOAL;
         } else if (clr.equals(Field.WALL.color)) {
             thisField = Field.WALL;
+        } else if (clr.equals(Field.INVW.color)) {
+            thisField = Field.INVW;
         } else if (clr.equals(Field.PATH.color)) {
             thisField = Field.PATH;
         } else if (clr.equals(Field.START.color)) {

@@ -21,22 +21,6 @@ public class Board {
 	private Field[][] board;
 
 	/**
-	 * Konstruktor für ein Standard-Board.
-	 * Erstellt ein spezielles Labyrinth aus einem Bild (QR-Code).
-	 *
-	 * @param width  Breite des Boards
-	 * @param height Höhe des Boards
-	 */
-	public Board(int width, int height) {
-		// TODO: Parameterüberprüfung (z.B. Mindestgröße) könnte sinnvoll sein
-		this.width = width;
-		this.height = height;
-
-		// Labyrinth aus einem Bild (QR-Code) generieren
-		this.board = GeneratorFromImage.generate(29, 29, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
-	}
-
-	/**
 	 * Konstruktor mit zusätzlichem Schwierigkeitsgrad-Parameter.
 	 * Wählt je nach Schwierigkeitsgrad zwischen einem Standard-Labyrinth und einem Spezialbild.
 	 *
@@ -51,7 +35,7 @@ public class Board {
 		Field[][] newBoard;
 		if (difficulty == Difficulty.SECRET) {
 			// Bei SECRET wird das Labyrinth aus einem Bild generiert
-			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/qr_code.bmp");
+			newBoard = GeneratorFromImage.generate(width, height, "./src/LabyrinthPerson_v3/resources/qr_code2.bmp");
 		} else {
 			// Standard-Generator für reguläre Schwierigkeitsgrade
 			newBoard = MainMaze.generate();
@@ -59,7 +43,6 @@ public class Board {
 
 		this.board = newBoard;
 	}
-
 
 	/**
 	 * Lädt je nach größe ein "L" oder "W" für gewonnen oder verloren
