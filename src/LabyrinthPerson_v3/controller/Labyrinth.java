@@ -37,7 +37,7 @@ public class Labyrinth {
                 int height = 19;
 
                 // Definiert die Pixelgröße jedes Spielfelds für die grafische Darstellung.
-                Dimension fieldDimensions = new Dimension(48, 48);
+                Dimension fieldDimensions = new Dimension(32, 32);
 
                 // Anpassung der Größe (+ Pixelgröße) für den "SECRET"-Schwierigkeitsgrad.
                 if (difficulty == Difficulty.SECRET) {

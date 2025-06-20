@@ -198,7 +198,7 @@ public class GameState {
             }
 
             // Wartezeit zur Animation
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(10);
 
             // Gegner bewegen sich
             moveEnemies();
@@ -294,7 +294,7 @@ public class GameState {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            board = new Board(this.board.getWidth(), this.board.getHeight(), 69);
+            board = new Board(this.board.getWidth(), this.board.getHeight(), 69_420);
             updateViews();
             try {
                 TimeUnit.MILLISECONDS.sleep(500);
@@ -317,6 +317,13 @@ public class GameState {
         deleteAllWalls();
         deleteAllEnemies();
         deleteAllSGElements();
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         winScreen();
 
         closeWindow = true;
