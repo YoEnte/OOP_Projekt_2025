@@ -1,5 +1,6 @@
 package model.rules;
 
+import model.Coordinates;
 import model.Direction;
 import model.Field;
 import model.GameState;
@@ -95,6 +96,16 @@ public class GameRuleLogic {
                 if(e.getPositionX() == positionX && e.getPositionY() == positionY){
                     throw new InvalidSpawnException("There is an Enemy");
                 }
+            }
+        }
+
+        // Überprüfen, ob es weit genug von allen Startfeldern ist (Radius 5).
+        ArrayList<Coordinates> starts = gameState.getBoard().getIndexForFieldType(Field.START);
+        for (Coordinates c : starts) {
+            if (Math.sqrt(Math.pow(c.getXCoordinate() - positionX, 2) + Math.pow(c.getYCoordinate() - positionY, 2)) < 5) {
+                System.out.println(positionX);
+                System.out.println(positionY);
+                throw new InvalidSpawnException("In Spawnprotection Radius");
             }
         }
 
