@@ -3,6 +3,11 @@ package model.generators;
 import model.Field;
 
 public class MainMaze {
+
+    /**
+     * Generiert ein Feld aufgrund eines String Arrays
+     * @return board
+     */
     public static Field[][] generate(){
         Field[][] board = new Field[19][20];
 

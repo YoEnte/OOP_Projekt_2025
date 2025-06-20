@@ -2,6 +2,8 @@ package model;
 
 /**
  * Represents a direction in the game.
+ * The documentation in this class is in english,
+ * because we never changed it and it came so xD
  */
 public enum Direction {
 	/** No movement. */

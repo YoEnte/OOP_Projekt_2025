@@ -12,7 +12,7 @@ public interface View {
 	/**
 	 * Called whenever the world updates.
 	 * 
-	 * @param board the {@link Board} object which called this method.
+	 * @param gameState the {@link Board} object which called this method.
 	 */
 	void update(GameState gameState);
 

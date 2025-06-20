@@ -15,7 +15,7 @@ public class EasyEnemy extends Enemy {
     static Random random = new Random();
 
     /**
-     * EInfacher Konstruktor siehe Enemy
+     * Einfacher Konstruktor siehe Enemy
      * @param positionX
      * @param positionY
      * @param url
