@@ -1,7 +1,12 @@
 package view;
 
 import model.Difficulty;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class MenuScreen {
     public static Difficulty showMenu() {
@@ -12,15 +17,13 @@ public class MenuScreen {
                 "Fun"
         };
 
-
-
         int choice = JOptionPane.showOptionDialog(
                 null,
                 "Choose the difficulty: ",
                 "Labyrinth - Difficulty",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
-                null,
+                new ImageIcon("./src/LabyrinthPerson_v3/resources/player3.png"),
                 options,
                 options[0]
         );
