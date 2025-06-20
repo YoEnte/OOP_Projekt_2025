@@ -42,7 +42,7 @@ public class Labyrinth {
                 if (difficulty == Difficulty.SECRET) {
                     width = 33;
                     height = 33;
-                    fieldDimensions.setSize(25, 25);
+                    fieldDimensions.setSize(20, 20);
                 }
 
                 // Erstellt das Spielfeld-Model mit angegebener Größe und Schwierigkeitsgrad.
